@@ -5,11 +5,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var NPC = require('./npc.js');
 var Shop = require('./shop.js');
-
 var citySchema= new Schema({
     city_name:[{type:String, maxLength:40}],
     allegience:[{type:String}],
     population:[{type:Number, maxLength:8}],
+    city_guards:[(this.population*0.01).toFixed(0)],
+    city_militia:[(this.population*0.05).toFixed(0)],
     lat:[{type:Number, maxLength: 16}],
     lng:[{type:Number, maxLength:16}],
     govtype:[{type:String}],
@@ -29,4 +30,6 @@ var citySchema= new Schema({
     maps:[{type:Image}]
 
 
-})
+});
+var City = mongoose.model('City',citySchema,'Cities');
+module.exports=City;

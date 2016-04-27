@@ -5,5 +5,8 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
+router.get('/map', function(req,res,next){
+  res.render('map',{ title:'Archaevas Map' })
+});
 
 module.exports = router;

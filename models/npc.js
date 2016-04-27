@@ -8,15 +8,17 @@ var City = require('./city.js');
 
 var npc_Schema=new Schema({
     name:[{type:String}],
-    race:[{type:String}],
-    gender:[{type:String}],
-    age:[{type:Number}],
-    description:[{type:Array}],
+    race:[{type:String,default: null}],
+    gender:[{type:String,default: null}],
+    age:[{type:Number,default: null}],
+    description:[{type:Array,default: null}],
     owns_shop:{
         owns_a_shop:[{type:Boolean, default: false}],
-        shop:[Shop]
+        shop:[{type:Shop,default: null}]
     },
-    home_city:[City],
-    notes:[],
-    secrets:[]
+    home_city:[{type:City,default: null}],
+    notes:[{type:String,default: null}],
+    secrets:[{type:String,default: null}]
 });
+var NPC = mongoose.model('NPC', npc_Schema, 'npcs');
+module.exports=NPC;
