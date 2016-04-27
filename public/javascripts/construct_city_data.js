@@ -49,4 +49,4 @@ function city_constructor(){
     new_city_data.general_description_of_settlement=city_desc;
 
 }
-module.exports =city_constructor;
+module.exports = city_constructor;

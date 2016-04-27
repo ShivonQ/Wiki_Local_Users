@@ -7,12 +7,8 @@ var PlayerChar = require('./playerChar.js');
 
 var userSchema = mongoose.Schema({
 
-    google:{
-        id:String,
-        token: String,
-        name:String,
-        email:String
-    },
+    username:{type:String, required:true, unique:true},
+    password:{type:String, required:true},
 
     isAdmin:[{type:Boolean, default:false}],
     dm_privileges:{

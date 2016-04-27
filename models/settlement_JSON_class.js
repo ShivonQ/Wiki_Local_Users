@@ -20,7 +20,7 @@ var Settlement_Data=function(pop){
     this.knowledge_local_information={10:"",15:"",20:"",25:"","30":""};
     this.general_description_of_settlement="";
 
-    this.city_map=null;
+    //this.city_map=null;
     this.local_map=null;
     //TODO once the map is working properly find the coordinates for the towns.
     this.latitude=0;

@@ -5,18 +5,19 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var NPC = require('./npc.js');
 var Shop = require('./shop.js');
+
 var citySchema= new Schema({
     city_name:[{type:String, maxLength:40}],
     allegience:[{type:String}],
-    population:[{type:Number, maxLength:8}],
-    city_guards:[(this.population*0.01).toFixed(0)],
-    city_militia:[(this.population*0.05).toFixed(0)],
-    lat:[{type:Number, maxLength: 16}],
-    lng:[{type:Number, maxLength:16}],
-    govtype:[{type:String}],
-    gov_alignment:[{type:String, maxLength:18}],
+    population:{type:Number, maxLength:8},
+    //city_guards:(parseInt(this.population)*0.01).toFixed(0),
+    //city_militia:(parseInt(this.population)*0.05).toFixed(0),
+    lat:{type:Number, maxLength: 16},
+    lng:{type:Number, maxLength:16},
+    govtype:{type:String},
+    gov_alignment:{type:String, maxLength:18},
     gov_npcs:[NPC],
-    city_description:[{type:String, minlength: 100}],
+    city_description:{type:String, minlength: 100},
     shops:{
         general_stores:[Shop],
         tavern_and_others:[Shop],
@@ -26,8 +27,7 @@ var citySchema= new Schema({
     sherrif_or_captain:[NPC],
     casters:[NPC],
     major_exports:[{type:Array}],
-    major_imports:[{type:Array}],
-    maps:[{type:Image}]
+    major_imports:[{type:Array}]
 
 
 });

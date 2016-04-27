@@ -1,7 +1,7 @@
 block content
   .col-md-6
     // TODO make this form have an action to push to DB
-    form#admin_city_data_entry_form(action='data/addcity',method="post")
+    form#admin_city_data_entry_form(enctype='application/json')
       fieldset.outer_fieldset_for_form
         legend#large_legend Admin City Data Entry Form
         .admin_wrapper
@@ -139,7 +139,7 @@ block content
                 br
             tr
               td(colspan='4')
-                button#submit_form_button(formmethod='post')
+                button#submit_form_button(formaction='json_city_maker()')
                   | Save This City's Data:
                   span.glyphicon.glyphicon-floppy-save
   script.
@@ -239,6 +239,7 @@ block content
             $("#magic_shops_div").append(all_magic);
         });
         $("#submit_form_button").on("click", function(){
+            json_city_maker();
 
         })
         function json_city_maker() {
