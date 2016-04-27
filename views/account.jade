@@ -1,0 +1,20 @@
+//
+   Created by School on 4/21/2016.
+extends layout
+
+        title= title
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
+    body
+    .container
+        h1 You are logged in.
+
+        a(href="/") Go home
+        br
+        a(href="/ping") Ping
+        br
+        br
+        a(href="/logout") Logout
+
+    script(src='http://code.jquery.com/jquery.js')
+    script(src='js/bootstrap.min.js')
