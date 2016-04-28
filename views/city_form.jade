@@ -151,8 +151,10 @@ block content
         $("#add_spellcaster_button").on("click", function () {
             var all_casters = $("<div class=\"all_casters\" class=\"casters\"/>");
             var how_many_of_these_fields_exist=$('.caster').length;
-            var field_base_name='caster'+how_many_of_these_fields_exist;
-            var caster_text_field = $("<input type=\"text\" class=\"caster\" name=field_base_name/>");
+            var field_name='caster'+how_many_of_these_fields_exist;
+            var caster_text_field = $("<input type=\"text\" class=\"caster\" name='newest_field'/>");
+            //$('td[name=tcol1]')
+            $('input[name="newest_field"]').attr(name,field_name)
             var remove_caster_button = $("<button  class=\"remove_caster_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
             //var select_caster_type = $("<select class='arc_or_div'><option value='none'></option><option value='Arcane'>Arcane</option><option value='Divine'>Divine</option>")
             remove_caster_button.click(function () {
