@@ -150,13 +150,15 @@ block content
 
         $("#add_spellcaster_button").on("click", function () {
             var all_casters = $("<div class=\"all_casters\" class=\"casters\"/>");
-            var caster_text_field = $("<input type=\"text\" class=\"caster\"/>");
+            var how_many_of_these_fields_exist=$('.caster').length;
+            var field_base_name='caster'+how_many_of_these_fields_exist;
+            var caster_text_field = $("<input type=\"text\" class=\"caster\" name=field_base_name/>");
             var remove_caster_button = $("<button  class=\"remove_caster_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
-            var select_caster_type = $("<select class='arc_or_div'><option value='none'></option><option value='Arcane'>Arcane</option><option value='Divine'>Divine</option>")
+            //var select_caster_type = $("<select class='arc_or_div'><option value='none'></option><option value='Arcane'>Arcane</option><option value='Divine'>Divine</option>")
             remove_caster_button.click(function () {
                 $(this).parent().remove();
             });
-            all_casters.append(select_caster_type);
+            //all_casters.append(select_caster_type);
             all_casters.append(caster_text_field);
             all_casters.append(remove_caster_button);
             $("#spellcasters_div").append(all_casters);
