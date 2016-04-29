@@ -1,305 +1,318 @@
 block content
-  .col-md-6
-    // TODO make this form have an action to push to DB
-    form#admin_city_data_entry_form(enctype='application/json')
-      fieldset.outer_fieldset_for_form
-        legend#large_legend Admin City Data Entry Form
-        .admin_wrapper
-          table#table_form_city_data
-            tr
-              td City Name:
-              td
-                input#city_name_box(type='text', name='city_name_box', size='25', maxlength='60', required='required')
-              td Allegiance:
-              td
-                select#allegiance_dropdown(name='allegiance_dropdown', required='required')
-                  option(value='none')
-                  option(value="Scoia'tel") Scoia'tel
-                  option(value='Gjomatoughariil') Gjomatoughariil
-                  option(value='Thokklund') Thokklund
-                  option(value='Lochton') Lochton
-                  option(value='Denninhdane') Denninhdane
-                  option(value='Orsim') Orsim
-                  option(value='The Keep of The Wind') The Keep of The Winds
-                  option(value='The Golauchi Alliance') The Golauchi Alliance
-                  option(value='The Wilds') The Wilds
-                  option(value='Cavalcade') Cavalcade
-                  option(value='The Tumultuous Lands') The Tumultuous Lands
-                  option(value='The Endless Sands') The Endless Sands
-            tr
-              td City Population:
-              td
-                input#city_pop_text_box(type='text', size='30', maxlength='30', name='city_pop')
-            tr
-              td Latitude:
-              td
-                input#lat_display(type='text', name='lat_display_box', size='9', maxlength='15', required='required')
-              td Longitude:
-              td
-                input#lng_display(type='text', name='lng_display_box', size='9', maxlength='15', required='required')
-            tr
-              td Governement Type:
-              td
-                select#gov_type_dropdown(name='gov_type_dropdown', required='required')
-                  option(value='none')
-                  option(value='Magocracy') Magocracy
-                  option(value='Elected Council') Elected Council
-                  option(value='Monarchy') Monarchy
-                  option(value='Theocracy') Theocracy
-                  option(value='Commonwealth') Commonwealth
-                  option(value='Dictatorship') Dictatorship
-                  option(value='Plutocracy') Plutocracy
-                  option(value='Meritocracy') Meritocracy
-                  option(value='Oligarchy') Oligarchy
-                  option(value='Socialist') Socialist
-                  option(value='Totalitarian') Totalitarian
-                  option(value='Theocratic-Monarchy') Theocratic-Monarchy
-                  option(value='Theocratic-Meritocracy') Theocratic-Meritocracy
-              td Alignment:
-              td
-                select#alignment_dropdown(name='alignment_dropdown', required='required')
-                  option(value='none')
-                  option(value='Lawful Good') Lawful Good
-                  option(value='Neutral Good') Neutral Good
-                  option(value='Chaotic Good') Chaotic Good
-                  option(value='Lawful Neutral') Lawful Neutral
-                  option(value='Neutral Neutral') Neutral Neutral
-                  option(value='Chaotic Neutra') Chaotic Neutral
-                  option(value='Lawful Evil') Lawful Evil
-                  option(value='Neutral Evil') Neutral Evil
-                  option(value='Chaotic Evil') Chaotic Evil
-            tr
-              td(align='left', colspan='2')
-                fieldset.small_inner_fieldset
-                  #gov_npcs_div
-                  legend.smaller_legend Add Government NPCs
-                  input#add_gov_npc_button.add_gov(type='button', value='Add Another NPC')
-              td(colspan='2')
-                textarea#city_description(required='required', maxlength='300') Please enter the city's description.
-            tr
-              td(colspan='4')
-                hr.form_divider
-            tr
-              td#shops_banner(colspan='4', align='center') Shops in Town
-            tr
-              td(colspan='2')
-                fieldset.small_inner_fieldset
-                  #general_stores_div
-                  legend.smaller_legend General
-                  input#add_general_store_button.add_general(type='button', value='Add Another Shop')
-              td(colspan='2')
-                fieldset.small_inner_fieldset
-                  #taverns_div
-                  legend.smaller_legend Taverns & Others
-                  input#add_tavern_button.add_tavern(type='button', value='Add Another Shop')
-            tr
-              td(colspan='2')
-                fieldset.small_inner_fieldset
-                  #weps_and_armor_div
-                  legend.smaller_legend Weapons and Armor
-                  input#add_weps_and_armor_button.add_weps(type='button', value='Add Another Shop')
-              td(colspan='2')
-                fieldset.small_inner_fieldset
-                  #magic_shops_div
-                  legend.smaller_legend Magic Items
-                  input#add_magic_store_button.add_magic(type='button', value='Add Another Shop')
-            tr
-              td(colspan='4')
-                hr.form_divider
-            tr
-              td Sheriff or Captain
-              td
-                select#captain_selector
-                  option(value='none')
-                  option(value='Sheriff') Sheriff
-                  option(value='Captain') Captain
-              td(colspan='2')
-                input#guard_captain(type='text', size='30', maxlength='40')
-            tr
-              td(colspan='4')
-                fieldset
-                  #spellcasters_div
-                  legend.smaller_legend Notable Spellcasters
-                  input#add_spellcaster_button.add_caster(type='button', value='Add Spellcaster', size='20', maxlength='30')
-            tr
-              td(colspan='2')
-                fieldset.small_inner_fieldset
-                  #major_exports_div
-                  legend.smaller_legend Major Exports
-                  input#add_export_button.add_export(type='button', value='Add Export')
-              td(colspan='2')
-                fieldset.small_inner_fieldset
-                  #major_imports_div
-                  legend.smaller_legend Major Exports
-                  input#add_import_button.add_import(type='button', value='Add Import')
-            tr
-              td(colspan='4')
-                | Upload an city map:
-                input(type='file', name='city_map')
-                br
-            tr
-              td(colspan='4')
-                button#submit_form_button(formaction='json_city_maker()')
-                  | Save This City's Data:
-                  span.glyphicon.glyphicon-floppy-save
-  script.
-    $(document).ready(function () {
-        $("#large_legend").on("click", function () {
-            $(this).parent().find('.admin_wrapper').slideToggle("med");
-        });
-
-        $("#add_spellcaster_button").on("click", function () {
-            var all_casters = $("<div class=\"all_casters\" class=\"casters\"/>");
-            var how_many_of_these_fields_exist=$('.caster').length;
-            var field_name='caster'+how_many_of_these_fields_exist;
-            var caster_text_field = $("<input type=\"text\" class=\"caster\" name='newest_field'/>");
-            //$('td[name=tcol1]')
-            $('input[name="newest_field"]').attr(name,field_name)
-            var remove_caster_button = $("<button  class=\"remove_caster_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
-            //var select_caster_type = $("<select class='arc_or_div'><option value='none'></option><option value='Arcane'>Arcane</option><option value='Divine'>Divine</option>")
-            remove_caster_button.click(function () {
-                $(this).parent().remove();
+    .col-md-6
+        // TODO make this form have an action to push to DB
+        form#admin_city_data_entry_form(action='data/addcity',method="post")
+            fieldset.outer_fieldset_for_form
+                legend#large_legend Admin City Data Entry Form
+                .admin_wrapper
+                    table#table_form_city_data
+                        tr
+                            td City Name:
+                            td
+                                input#city_name_box(type='text', name='city_name_box', size='25', maxlength='60', required='required')
+                            td Allegiance:
+                            td
+                                select#allegiance_dropdown(name='allegiance_dropdown', required='required')
+                                    option(value='none')
+                                    option(value="Scoia'tel") Scoia'tel
+                                    option(value='Gjomatoughariil') Gjomatoughariil
+                                    option(value='Thokklund') Thokklund
+                                    option(value='Lochton') Lochton
+                                    option(value='Denninhdane') Denninhdane
+                                    option(value='Orsim') Orsim
+                                    option(value='The Keep of The Wind') The Keep of The Winds
+                                    option(value='The Golauchi Alliance') The Golauchi Alliance
+                                    option(value='The Wilds') The Wilds
+                                    option(value='Cavalcade') Cavalcade
+                                    option(value='The Tumultuous Lands') The Tumultuous Lands
+                                    option(value='The Endless Sands') The Endless Sands
+                        tr
+                            td City Population:
+                            td
+                                input#city_pop_text_box(type='text', size='30', maxlength='30', name='city_pop')
+                        tr
+                            td Latitude:
+                            td
+                                input#lat_display(type='text', name='lat_display_box', size='9', maxlength='15', required='required')
+                            td Longitude:
+                            td
+                                input#lng_display(type='text', name='lng_display_box', size='9', maxlength='15', required='required')
+                        tr
+                            td Governement Type:
+                            td
+                                select#gov_type_dropdown(name='gov_type_dropdown', required='required')
+                                    option(value='none')
+                                    option(value='Magocracy') Magocracy
+                                    option(value='Elected Council') Elected Council
+                                    option(value='Monarchy') Monarchy
+                                    option(value='Theocracy') Theocracy
+                                    option(value='Commonwealth') Commonwealth
+                                    option(value='Dictatorship') Dictatorship
+                                    option(value='Plutocracy') Plutocracy
+                                    option(value='Meritocracy') Meritocracy
+                                    option(value='Oligarchy') Oligarchy
+                                    option(value='Socialist') Socialist
+                                    option(value='Totalitarian') Totalitarian
+                                    option(value='Theocratic-Monarchy') Theocratic-Monarchy
+                                    option(value='Theocratic-Meritocracy') Theocratic-Meritocracy
+                            td Alignment:
+                            td
+                                select#alignment_dropdown(name='alignment_dropdown', required='required')
+                                    option(value='none')
+                                    option(value='Lawful Good') Lawful Good
+                                    option(value='Neutral Good') Neutral Good
+                                    option(value='Chaotic Good') Chaotic Good
+                                    option(value='Lawful Neutral') Lawful Neutral
+                                    option(value='Neutral Neutral') Neutral Neutral
+                                    option(value='Chaotic Neutra') Chaotic Neutral
+                                    option(value='Lawful Evil') Lawful Evil
+                                    option(value='Neutral Evil') Neutral Evil
+                                    option(value='Chaotic Evil') Chaotic Evil
+                        tr
+                            td(align='left', colspan='2')
+                                fieldset.small_inner_fieldset
+                                    #gov_npcs_div
+                                    legend.smaller_legend Add Government NPCs
+                                    input#add_gov_npc_button.add_gov(type='button', value='Add Another NPC')
+                            td(colspan='2')
+                                textarea#city_description(required='required', maxlength='300') Please enter the city's description.
+                        tr
+                            td(colspan='4')
+                                hr.form_divider
+                        tr
+                            td#shops_banner(colspan='4', align='center') Shops in Town
+                        tr
+                            td(colspan='2')
+                                fieldset.small_inner_fieldset
+                                    #general_stores_div
+                                    legend.smaller_legend General
+                                    input#add_general_store_button.add_general(type='button', value='Add Another Shop')
+                            td(colspan='2')
+                                fieldset.small_inner_fieldset
+                                    #taverns_div
+                                    legend.smaller_legend Taverns & Others
+                                    input#add_tavern_button.add_tavern(type='button', value='Add Another Shop')
+                        tr
+                            td(colspan='2')
+                                fieldset.small_inner_fieldset
+                                    #weps_and_armor_div
+                                    legend.smaller_legend Weapons and Armor
+                                    input#add_weps_and_armor_button.add_weps(type='button', value='Add Another Shop')
+                            td(colspan='2')
+                                fieldset.small_inner_fieldset
+                                    #magic_shops_div
+                                    legend.smaller_legend Magic Items
+                                    input#add_magic_store_button.add_magic(type='button', value='Add Another Shop')
+                        tr
+                            td(colspan='4')
+                                hr.form_divider
+                        tr
+                            td Sheriff or Captain
+                            td
+                                select#captain_selector
+                                    option(value='none')
+                                    option(value='Sheriff') Sheriff
+                                    option(value='Captain') Captain
+                            td(colspan='2')
+                                input#guard_captain(type='text', size='30', maxlength='40')
+                        tr
+                            td(colspan='4')
+                                fieldset
+                                    #spellcasters_div
+                                    legend.smaller_legend Notable Spellcasters
+                                    input#add_spellcaster_button.add_caster(type='button', value='Add Spellcaster', size='20', maxlength='30')
+                        tr
+                            td(colspan='2')
+                                fieldset.small_inner_fieldset
+                                    #major_exports_div
+                                    legend.smaller_legend Major Exports
+                                    input#add_export_button.add_export(type='button', value='Add Export')
+                            td(colspan='2')
+                                fieldset.small_inner_fieldset
+                                    #major_imports_div
+                                    legend.smaller_legend Major Imports
+                                    input#add_import_button.add_import(type='button', value='Add Import')
+                        tr
+                            td(colspan='4')
+                                | Upload an city map:
+                                input(type='file', name='city_map')
+                                br
+                        tr
+                            td(colspan='4')
+                                button#submit_form_button(type='submit')
+                                    | Save This City's Data:
+                                    span.glyphicon.glyphicon-floppy-save
+    script.
+        $(document).ready(function () {
+            $("#large_legend").on("click", function () {
+                $(this).parent().find('.admin_wrapper').slideToggle("med");
             });
-            //all_casters.append(select_caster_type);
-            all_casters.append(caster_text_field);
-            all_casters.append(remove_caster_button);
-            $("#spellcasters_div").append(all_casters);
-        });
-        $("#add_import_button").on("click", function () {
-            var all_imports = $("<div class=\"all_imports\" class=\"imports\"/>");
-            var import_text_field = $("<input type=\"text\" class=\"import\"/>");
-            var remove_import_button = $("<button  class=\"remove_import_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
-            remove_import_button.click(function () {
-                $(this).parent().remove();
+
+            $("#add_spellcaster_button").on("click", function () {
+                var all_casters = $("<div class=\"all_casters\" class=\"casters\"/>");
+                var field_name = 'caster' + $('.caster').length;
+                var caster_text_field = $("<input type=\"text\" class=\"caster\" name='newest_field'/>");
+                var remove_caster_button = $("<button  class=\"remove_caster_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
+                //var select_caster_type = $("<select class='arc_or_div'><option value='none'></option><option value='Arcane'>Arcane</option><option value='Divine'>Divine</option>")
+                remove_caster_button.click(function () {
+                    $(this).parent().remove();
+                });
+                //all_casters.append(select_caster_type);
+                all_casters.append(caster_text_field);
+                all_casters.append(remove_caster_button);
+                $("#spellcasters_div").append(all_casters);
+                $('input[name="newest_field"]').attr('name', field_name)
             });
-            all_imports.append(import_text_field);
-            all_imports.append(remove_import_button);
-            $("#major_imports_div").append(all_imports);
-        });
-        $("#add_export_button").on("click", function () {
-            var all_exports = $("<div class=\"all_exports\" class=\"exports\"/>");
-            var export_text_field = $("<input type=\"text\" class=\"export\"/>");
-            var remove_export_button = $("<button  class=\"remove_export_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
-            remove_export_button.click(function () {
-                $(this).parent().remove();
+            $("#add_import_button").on("click", function () {
+                var all_imports = $("<div class=\"all_imports\" class=\"imports\"/>");
+                var field_name = 'import' + $('.import').length;
+                var import_text_field = $("<input type=\"text\" class=\"import\" name='newest_field'/>");
+                var remove_import_button = $("<button  class=\"remove_import_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
+                remove_import_button.click(function () {
+                    $(this).parent().remove();
+                });
+                all_imports.append(import_text_field);
+                all_imports.append(remove_import_button);
+                $("#major_imports_div").append(all_imports);
+                $('input[name="newest_field"]').attr('name', field_name)
             });
-            all_exports.append(export_text_field);
-            all_exports.append(remove_export_button);
-            $("#major_exports_div").append(all_exports);
-        });
-        $("#add_gov_npc_button").on("click", function () {
-            var all_gov_npcs = $("<div class=\"all_gov_npcs\" class=\"gov_npcs\"/>");
-            var npc_text_field = $("<input type=\"text\" class=\"gov_npc\" name = 'gov_npc'/>");
-            var remove_gov_button = $("<button  class=\"remove_gov_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
-            remove_gov_button.click(function () {
-                $(this).parent().remove();
+            $("#add_export_button").on("click", function () {
+                var all_exports = $("<div class=\"all_exports\" class=\"exports\"/>");
+                var field_name = 'export' + $('.export').length;
+                var export_text_field = $("<input type=\"text\" class=\"export\" name='newest_field'/>");
+                var remove_export_button = $("<button  class=\"remove_export_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
+                remove_export_button.click(function () {
+                    $(this).parent().remove();
+                });
+                all_exports.append(export_text_field);
+                all_exports.append(remove_export_button);
+                $("#major_exports_div").append(all_exports);
+                $('input[name="newest_field"]').attr('name', field_name)
             });
-            all_gov_npcs.append(npc_text_field);
-            all_gov_npcs.append(remove_gov_button);
-            $("#gov_npcs_div").append(all_gov_npcs);
-        });
-        $("#add_general_store_button").on("click", function () {
-            var all_general_stores = $("<div class=\"all_general_stores\" class=\"general_stores\"/>");
-            var store_text_field = $("<input type=\"text\" class=\"general_store\"/>");
-            var remove_gen_store_button = $("<button  class=\"remove_gen_store_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
-            remove_gen_store_button.click(function () {
-                $(this).parent().remove();
+            $("#add_gov_npc_button").on("click", function () {
+                var all_gov_npcs = $("<div class=\"all_gov_npcs\" class=\"gov_npcs\"/>");
+                var field_name = 'gov_npc' + $('.gov_npc').length;
+                var npc_text_field = $("<input type=\"text\" class=\"gov_npc\" name = 'newest_field'/>");
+                var remove_gov_button = $("<button  class=\"remove_gov_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
+                remove_gov_button.click(function () {
+                    $(this).parent().remove();
+                });
+                all_gov_npcs.append(npc_text_field);
+                all_gov_npcs.append(remove_gov_button);
+                $("#gov_npcs_div").append(all_gov_npcs);
+                $('input[name="newest_field"]').attr('name', field_name);
             });
-            all_general_stores.append(store_text_field);
-            all_general_stores.append(remove_gen_store_button);
-            $("#general_stores_div").append(all_general_stores);
-        });
-        $("#add_tavern_button").on("click", function () {
-            var all_taverns_and_otheras = $("<div class=\"all_taverns_and_others\" class=\"taverns_and_others\"/>");
-            var store_text_field = $("<input type=\"text\" class=\"tavern_or_other\"/>");
-            var remove_tavern_button = $("<button  class=\"remove_tavern_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
-            remove_tavern_button.click(function () {
-                $(this).parent().remove();
+            $("#add_general_store_button").on("click", function () {
+                var all_general_stores = $("<div class=\"all_general_stores\" class=\"general_stores\"/>");
+                var field_name = 'gen_store' + $('.general_store').length;
+                var store_text_field = $("<input type=\"text\" class=\"general_store\" name='newest_field'/>");
+                var remove_gen_store_button = $("<button  class=\"remove_gen_store_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
+                remove_gen_store_button.click(function () {
+                    $(this).parent().remove();
+                });
+                all_general_stores.append(store_text_field);
+                all_general_stores.append(remove_gen_store_button);
+                $("#general_stores_div").append(all_general_stores);
+                $('input[name="newest_field"]').attr('name', field_name);
             });
-            all_taverns_and_otheras.append(store_text_field);
-            all_taverns_and_otheras.append(remove_tavern_button);
-            $("#taverns_div").append(all_taverns_and_otheras);
-        });
-        $("#add_weps_and_armor_button").on("click", function () {
-            var all_weps_and_armor = $("<div class=\"all_weps_and_armor\" class=\"weps_and_armor\"/>");
-            var store_text_field = $("<input type=\"text\" class=\"wep_armor_shop\"/>");
-            var remove_weps_button = $("<button  class=\"remove_weps_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
-            remove_weps_button.click(function () {
-                $(this).parent().remove();
+            $("#add_tavern_button").on("click", function () {
+                var all_taverns_and_others = $("<div class=\"all_taverns_and_others\" class=\"taverns_and_others\"/>");
+                var field_name = 'tavern_or_other' + $('.tavern_or_other').length;
+                var store_text_field = $("<input type=\"text\" class=\"tavern_or_other\" name='newest_field'/>");
+                var remove_tavern_button = $("<button  class=\"remove_tavern_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
+                remove_tavern_button.click(function () {
+                    $(this).parent().remove();
+                });
+                all_taverns_and_others.append(store_text_field);
+                all_taverns_and_others.append(remove_tavern_button);
+                $("#taverns_div").append(all_taverns_and_others);
+                $('input[name="newest_field"]').attr('name', field_name);
             });
-            all_weps_and_armor.append(store_text_field);
-            all_weps_and_armor.append(remove_weps_button);
-            $("#weps_and_armor_div").append(all_weps_and_armor);
-        });
-        $("#add_magic_store_button").on("click", function () {
-            var all_magic = $("<div class=\"all_magic_items\" class=\"magic_items\"/>");
-            var store_text_field = $("<input type=\"text\" class=\"magic_item_shop\"/>");
-            var remove_magic_button = $("<button  class=\"remove_magic_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
-            remove_magic_button.click(function () {
-                $(this).parent().remove();
+            $("#add_weps_and_armor_button").on("click", function () {
+                var all_weps_and_armor = $("<div class=\"all_weps_and_armor\" class=\"weps_and_armor\"/>");
+                var field_name = 'wep_armor_shop' + $('wep_armor_shop').length;
+                var store_text_field = $("<input type=\"text\" class=\"wep_armor_shop\" name='newest_field'/>");
+                var remove_weps_button = $("<button  class=\"remove_weps_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
+                remove_weps_button.click(function () {
+                    $(this).parent().remove();
+                });
+                all_weps_and_armor.append(store_text_field);
+                all_weps_and_armor.append(remove_weps_button);
+                $("#weps_and_armor_div").append(all_weps_and_armor);
+                $('input[name="newest_field"]').attr('name', field_name);
             });
-            all_magic.append(store_text_field);
-            all_magic.append(remove_magic_button);
-            $("#magic_shops_div").append(all_magic);
+            $("#add_magic_store_button").on("click", function () {
+                var all_magic = $("<div class=\"all_magic_items\" class=\"magic_items\"/>");
+                var field_name = 'magic_item_shop' + $('magic_item_shop').length;
+                var store_text_field = $("<input type=\"text\" class=\"magic_item_shop\"/>");
+                var remove_magic_button = $("<button  class=\"remove_magic_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
+                remove_magic_button.click(function () {
+                    $(this).parent().remove();
+                });
+                all_magic.append(store_text_field);
+                all_magic.append(remove_magic_button);
+                $("#magic_shops_div").append(all_magic);
+                $('input[name="newest_field"]').attr('name', field_name);
+            });
         });
-        $("#submit_form_button").on("click", function(){
-            json_city_maker();
+        /*$("#submit_form_button").on("click", function(){
+         json_city_maker();
 
-        })
-        function json_city_maker() {
-
-
-            var cityname = $("#city_name_box").val();
-            var allegiance = $("#allegiance_dropdown option:selected").text();
-            var city_pop = $("#city_pop_text_box").val();
-            var lat = $("#lat_display").val();
-            var lng = $("#lng_display").val();
-            var gov_type = $("#gov_type_dropdown option:selected").text();
-            var gov_align = $("#alignment_dropdown option:selected").text();
-            var city_desc = $("#city_description").val();
-
-            var all_gov_npcs = [];
-
-            $(document).each("input.gov_npcs").val().append(all_gov_npcs);
-            //            var all_gov_npcs=$(document).find("input.gov_npc");
-            //                $(forEach(all_gov_npcs)).val();
-            //            var all_gov_npcs=$("#gov_npc").val();
-            var sheriff_or_captain = $("#captain_selector option:selected").text();
-            var name_of_s_or_c = $("#guard_captain").val();
-            var combo_of_above = sheriff_or_captain + " " + name_of_s_or_c;
-            //            lists and lists of items
-            var spellcasters = $("#caster").val();
-            var all_authority_figures = {
-                "Governmental": [all_gov_npcs],
-                "Guard Captain": [combo_of_above],
-                "Notable Spellcasters": [spellcasters]
-            }
-
-            var gen_shops = $("#general_store").val();
-            var taverns_shops = $("#tavern_or_other").val();
-            var magic_item_shops = $("#magic_item_shop").val();
-            var weps_and_armor = $("#wep_armor_shop").val();
-            var collection_of_stores = {
-                "General Stores": [gen_shops],
-                "Weapons & Armor": [weps_and_armor],
-                "Magic Items": [magic_item_shops],
-                "Other Vendors": [taverns_shops]
-            }
-
-            var maj_imp = $("#import").val();
-            var maj_exp = $("#export").val();
-
-            var new_city_data = new Settlement_Data(parseInt(city_pop));
-            new_city_data.name = cityname;
-            new_city_data.country_or_area = allegiance;
-            new_city_data.latitude = lat;
-            new_city_data.longitude = lng;
-            new_city_data.power_center_in_community = gov_type;
-            new_city_data.power_center_alignement = gov_align;
-            new_city_data.authority_figures = all_authority_figures;
-            new_city_data.local_stores = collection_of_stores;
-            new_city_data.major_imports = maj_imp;
-            new_city_data.major_exports = maj_exp;
-            new_city_data.general_description_of_settlement = city_desc;
-        }
+         })*/
+//        function json_city_maker() {
+//
+//
+//            var cityname = $("#city_name_box").val();
+//            var allegiance = $("#allegiance_dropdown option:selected").text();
+//            var city_pop = $("#city_pop_text_box").val();
+//            var lat = $("#lat_display").val();
+//            var lng = $("#lng_display").val();
+//            var gov_type = $("#gov_type_dropdown option:selected").text();
+//            var gov_align = $("#alignment_dropdown option:selected").text();
+//            var city_desc = $("#city_description").val();
+//
+//            var all_gov_npcs = [];
+//
+//            $(document).each("input.gov_npcs").val().append(all_gov_npcs);
+//            //            var all_gov_npcs=$(document).find("input.gov_npc");
+//            //                $(forEach(all_gov_npcs)).val();
+//            //            var all_gov_npcs=$("#gov_npc").val();
+//            var sheriff_or_captain = $("#captain_selector option:selected").text();
+//            var name_of_s_or_c = $("#guard_captain").val();
+//            var combo_of_above = sheriff_or_captain + " " + name_of_s_or_c;
+//            //            lists and lists of items
+//            var spellcasters = $("#caster").val();
+//            var all_authority_figures = {
+//                "Governmental": [all_gov_npcs],
+//                "Guard Captain": [combo_of_above],
+//                "Notable Spellcasters": [spellcasters]
+//            }
+//
+//            var gen_shops = $("#general_store").val();
+//            var taverns_shops = $("#tavern_or_other").val();
+//            var magic_item_shops = $("#magic_item_shop").val();
+//            var weps_and_armor = $("#wep_armor_shop").val();
+//            var collection_of_stores = {
+//                "General Stores": [gen_shops],
+//                "Weapons & Armor": [weps_and_armor],
+//                "Magic Items": [magic_item_shops],
+//                "Other Vendors": [taverns_shops]
+//            }
+//
+//            var maj_imp = $("#import").val();
+//            var maj_exp = $("#export").val();
+//
+//            var new_city_data = new Settlement_Data(parseInt(city_pop));
+//            new_city_data.name = cityname;
+//            new_city_data.country_or_area = allegiance;
+//            new_city_data.latitude = lat;
+//            new_city_data.longitude = lng;
+//            new_city_data.power_center_in_community = gov_type;
+//            new_city_data.power_center_alignement = gov_align;
+//            new_city_data.authority_figures = all_authority_figures;
+//            new_city_data.local_stores = collection_of_stores;
+//            new_city_data.major_imports = maj_imp;
+//            new_city_data.major_exports = maj_exp;
+//            new_city_data.general_description_of_settlement = city_desc;
+//        }
     });

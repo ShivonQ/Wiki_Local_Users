@@ -37,22 +37,34 @@ router.post('/addcity' , function(req,res,next){
     if(!req.body || !req.body.city_name_box){
         return next(new Error('Sorry, somehow you tried to insert data that is invalid, it will not be saved.'))
     }
-    var gov_npcs=[];
-    $(req).each("input.gov_npc").val().push(gov_npcs);
 
-    for(var j = 0; j<req.gov_npc.count;j++){
-        var new_gov_npc=new NPC({
-            name:req.gov_npc[j]
-        })
-    }
+    var list_of_gov_npcs=[];
+    var grab_gov_npcs=function(req){
+        var incremental_number=0;
+        while(req.gov_npc+incremental_number!=null){
+            console.log(req.gov_npc+incremental_number.stringify);
+            var newNPC=new NPC({
+                name:req.gov_npc+incremental_number,
+                home_city:req.city_name
+            });
+            list_of_gov_npcs.push(newNPC);
+            incremental_number++;
+            console.log(list_of_gov_npcs);
+        }
+    };
+    grab_gov_npcs(req);
     var newCity=City({
         city_name:req.city_name_box,
         allegience:req.allegiance_dropdown,
         population:req.city_pop,
+        city_guards:(req.city_pop*0.01).toFixed(0),
+        city_militia:(req.city_pop*0.05).toFixed(0),
         lat:req.lat_display_box,
         lng:lng_display_box,
         govtype:req.gov_type_dropdown,
-        gov_alignment:req.alignment_dropdown
+        gov_alignment:req.alignment_dropdown,
+        gov_npcs:list_of_gov_npcs
     })
     console.log(req)
 })
+module.exports = router;

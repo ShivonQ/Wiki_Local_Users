@@ -16,7 +16,7 @@ var npc_Schema=new Schema({
     //    owns_a_shop:{type:Boolean, default: false},
     //    shop:{type:Shop,default: null}
     //},
-    home_city:{type:City,default: null},
+    home_city:{type:String},
     notes:[{type:String,default: null}],
     secrets:[{type:String,default: null}]
 });
