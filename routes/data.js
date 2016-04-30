@@ -37,34 +37,39 @@ router.post('/addcity' , function(req,res,next){
     if(!req.body || !req.body.city_name_box){
         return next(new Error('Sorry, somehow you tried to insert data that is invalid, it will not be saved.'))
     }
-
+    //console.log(JSON.stringify(req.body));
     var list_of_gov_npcs=[];
     var grab_gov_npcs=function(req){
         var incremental_number=0;
-        while(req.gov_npc+incremental_number!=null){
-            console.log(req.gov_npc+incremental_number.stringify);
+        while(req.body['gov_npc'+incremental_number]!=null){
+            console.log(req.body['gov_npc'+incremental_number]);
             var newNPC=new NPC({
-                name:req.gov_npc+incremental_number,
-                home_city:req.city_name
+                name:req.body['gov_npc'+incremental_number],
+                home_city:req.body.city_name_box
             });
             list_of_gov_npcs.push(newNPC);
             incremental_number++;
             console.log(list_of_gov_npcs);
+            if (incremental_number>3){
+                console.log('Breaking While Loop');
+                break;
+
+            }
         }
     };
     grab_gov_npcs(req);
     var newCity=City({
-        city_name:req.city_name_box,
-        allegience:req.allegiance_dropdown,
-        population:req.city_pop,
-        city_guards:(req.city_pop*0.01).toFixed(0),
-        city_militia:(req.city_pop*0.05).toFixed(0),
-        lat:req.lat_display_box,
-        lng:lng_display_box,
-        govtype:req.gov_type_dropdown,
-        gov_alignment:req.alignment_dropdown,
-        gov_npcs:list_of_gov_npcs
+        city_name:req.body.city_name_box,
+        allegience:req.body.allegiance_dropdown,
+        population:req.body.city_pop,
+        city_guards:(req.body.city_pop*0.01).toFixed(0),
+        city_militia:(req.body.city_pop*0.05).toFixed(0),
+        lat:req.body.lat_display_box,
+        lng:req.body.lng_display_box,
+        govtype:req.body.gov_type_dropdown,
+        gov_alignment:req.body.alignment_dropdown,
+        gov_npcs:req.body.list_of_gov_npcs
     })
-    console.log(req)
+    //console.log(req)
 })
 module.exports = router;
