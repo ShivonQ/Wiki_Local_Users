@@ -16,6 +16,7 @@ var npc_Schema=new Schema({
     class:{type: String, default: ""},
     owns_a_shop:{type:Boolean, default:false},
     home_city:{type:String},
+    current_city:{type:String},
     notes:[{type:String,default: null}],
     secrets:[{type:String,default: null}],
     is_sheriff_or_cap:{type: Boolean, default:false}

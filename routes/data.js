@@ -37,7 +37,7 @@ router.post('/addcity' , function(req,res,next){
     if(!req.body || !req.body.city_name_box){
         return next(new Error('Sorry, somehow you tried to insert data that is invalid or non-existent, it will not be saved.'))
     }
-    var list_of_gov_npcs=[NPC];
+    var list_of_gov_npcs=[];
     var list_of_casters=[];
     var list_of_genShops=[];
     var list_of_tavShops=[];
@@ -54,60 +54,70 @@ router.post('/addcity' , function(req,res,next){
             if(str_prop.indexOf('gov_npc')>=0){
                 var newNPC = new NPC({
                     name:obj_req[prop],
-                    home_city:obj_req.city_name_box
+                    current_city:obj_req.city_name_box
                 });
                 newNPC.save(function(err){
                     if(err){
                         return next(err);
-                    } else{
-                        console.log('One Government NPC saved: '+newNPC.name)
-                    }
+                    } else {console.log('One Government NPC saved: '+newNPC.name)}
                 });
-                list_of_gov_npcs.push(newNPC);
-                console.log(newNPC)
+                list_of_gov_npcs.push(newNPC.name);
             }
             //Check for caster NPCs, sort them and save them
             if(str_prop.indexOf('caster')>=0){
                 var newCasterNPC=new NPC({
                     name:obj_req[prop],
-                    home_city:obj_req.city_name_box
+                    current_city:obj_req.city_name_box
                 });
-                list_of_casters.push(newCasterNPC);
-                console.log(newCasterNPC);
-                //TODO: uncomment when others are finished
-
-                //Check for the 4 types of Stores
+                newCasterNPC.save(function(err){
+                    if(err){
+                        return next(err)
+                    } else {console.log('One Caster NPC has been saved: '+newCasterNPC.name)}});
+                list_of_casters.push(newCasterNPC.name);
             }
             if(str_prop.indexOf('gen_store')>=0){
                 var newGenShop = new Shop({
-                    shopName:obj_req[prop]
+                    shopName:obj_req[prop],
+                    location:obj_req.city_name_box
                 });
-                list_of_genShops.push(newGenShop);
-                console.log(newGenShop);
-            //    TODO: save them, or push them
+                newGenShop.save(function(err){
+                    if(err){
+                        return next(err);
+                    } else {console.log('One General Shop Saved: '+newGenShop.shopName)}});
+                list_of_genShops.push(newGenShop.shopName);
             }
             if(str_prop.indexOf('tavern_or_other')>=0){
                 var newTavShop = new Shop({
-                    shopName:obj_req[prop]
+                    shopName:obj_req[prop],
+                    location:obj_req.city_name_box
                 });
-                list_of_tavShops.push(newTavShop);
-                console.log(newTavShop)
-            //    TODO: save them, or push them
+                newTavShop.save(function(err){
+                    if(err){
+                        return next(err);
+                    } else {console.log('One Tavern or similar shop has been saved: '+newTavShop.shopName)}});
+                list_of_tavShops.push(newTavShop.shopName);
             }
             if(str_prop.indexOf('wep_armor_shop')>=0){
                 var newWepArmorShop = new Shop({
-                    shopName:obj_req[prop]
+                    shopName:obj_req[prop],
+                    location:obj_req.city_name_box
                 });
-                list_of_wepArmorShops.push(newWepArmorShop);
-                console.log(newWepArmorShop);
-            //    TODO: save them, or push them
+                newWepArmorShop.save(function(err){
+                    if(err){
+                        return next(err)
+                    } else {console.log('One Weapon or Armory has been saved: '+newWepArmorShop.shopName)}});
+                list_of_wepArmorShops.push(newWepArmorShop.shopName);
             }
             if(str_prop.indexOf('magic_item_shop')>=0){
                 var newMagicShop = new Shop({
-                    shopName:obj_req[prop]
+                    shopName:obj_req[prop],
+                    location:obj_req.city_name_box
                 });
-                list_of_magicShops.push(newMagicShop);
-                console.log(newMagicShop);
+                newMagicShop.save(function(err){
+                    if(err){
+                        return next(err)
+                    } else {console.log('One Magic Item Shop has been saved: '+newMagicShop.shopName)}});
+                list_of_magicShops.push(newMagicShop.shopName);
             }
             if(str_prop.indexOf('export')>=0){
                 var export_type=obj_req[prop];
@@ -122,10 +132,10 @@ router.post('/addcity' , function(req,res,next){
             if(str_prop.indexOf('guard_leader')>=0){
                 var captain_or_sher=new NPC({
                     name:obj_req[prop],
-                    home_city:obj_req.city_name_box,
+                    current_city:obj_req.city_name_box,
                     is_sheriff_or_cap:true
                 });
-                captn=captain_or_sher;
+                captn=captain_or_sher.name;
                 console.log(captn)
             }
             console.log("recieved data name: "+prop+" , associated data in it: "+obj_req[prop]);

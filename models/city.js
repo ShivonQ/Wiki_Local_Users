@@ -16,16 +16,16 @@ var citySchema= new Schema({
     lng:{type:Number, maxLength:16, default:0},
     govtype:{type:String,default:null},
     gov_alignment:{type:String, maxLength:18,default:null},
-    gov_npcs:[NPC],
+    gov_npcs:Array,
     city_description:{type:String, maxlength: 1000,default:'Please Enter City Description'},
     shops:{
-        general_stores:[Shop],
-        tavern_and_others:[Shop],
-        weps_and_armor:[Shop],
-        magic_shops:[Shop]
+        general_stores:Array,
+        tavern_and_others:Array,
+        weps_and_armor:Array,
+        magic_shops:Array
     },
-    sherrif_or_captain:[NPC],
-    casters:[NPC],
+    sherrif_or_captain:String,
+    casters:Array,
     major_exports:[{type:String}],
     major_imports:[{type:String}]
 
