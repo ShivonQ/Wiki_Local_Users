@@ -1,0 +1,117 @@
+.col-md-4
+    table.table.table-condensed(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
+        tr
+            td#city_name(align='center', colspan='4')
+                | City Name
+        tr
+            td#city_location_insert(colspan='4', align='center') City Location
+        tr
+            td(align='center') Latitude:
+            td#lat_insert
+            td(align='center') Longitude:
+            td#lng_insert
+        tr
+            td#pop_insert(colspan='2') Population:
+            td#gp_limit_insert(colspan='2') GP Limit:
+        tr
+            td#governtment_type_and_alignment_insert(colspan='4') Government Type :::: Alignment
+        tr
+            td(colspan='4')
+                | Government People
+                ul#government_insert
+                    // Here is where the data will be made via a unordered list creating function
+        tr
+            td#mini_map(colspan='4')
+        tr
+            td#description_of_settlement_insert(colspan='4')
+        // <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+    .col-md-4
+        button.edit_button(onclick='') EDIT INFORMATION
+        form
+            p
+                | City Name:
+                input(type='text', name='city_name', size='6', maxlength='40')
+            p
+                | Population:
+                input(type='number', name='city_pop', size='6', maxlength='7')
+            p Country?
+            select(name='country_dropdown')
+                option(value='scoiatel') Scoia'Tel
+                option(value='gjomatoughariil') Gjomatoughariil
+                option(value='thokklund') Thokklund
+                option(value='lochton') Lochton
+                option(value='denninhdane') Denninhdane
+                option(value='orsim') Orsim
+                option(value='cavalcade') Cavalcade
+                option(value='the_keep') The Keep of The Winds
+                option(value='golau-chi') The Golau-Chi Alliance
+                option(value='wilds') The Wilds
+                option(value='tumultuous') The Tumultuous Lands
+                option(value='endless-sands') The Endless Sands
+            // <p>Plus icon on a styled link button:
+            // <a href="#" class="btn btn-info btn-lg">
+            // <span class="glyphicon glyphicon-plus"></span> Plus
+            // </a>
+            // </p>
+            table.table
+                tr
+                    td(colspan='2') Governemental NPCs
+                    td(colspan='1')
+                tr
+                    td(rowspan='2')
+                        p
+                            | NPC Name:
+                            input(type='text', name='npc-name')
+                    td
+                        button
+                            span.glyphicon.glyphicon-plus More NPCs
+                tr
+                    td
+                        button
+                            span.glyphicon.glyphicon-minus Less NPCs
+            p Governmental NPCs
+.col-md-4
+    table.table.table-condensed(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
+        tr
+            td(colspan='4', align='center') Local Shops
+        tr
+            td(colspan='2')
+                | General
+                ul#general_stores_insert
+            td(colspan='2')
+                | Taverns and Others
+                ul#taverns_and_others_insert
+        tr
+            td(colspan='2')
+                | Magic Item Shops
+                ul#magic_items_store_insert
+            td(colspan='2')
+                | Weapons and Armor
+                ul#weapons_and_armor_insert
+// <div id="mini_map" class="col-md-4">
+.col-md-4
+    table.table.table-condensed(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
+        tr.accordian-toggle(data-toggle='collapse', data-target='#demo1')
+            td(colspan='2')
+                | The Guard
+                ul#guard_insert
+                    li#captain_or_sherrif_insert Sherrif:
+                    li#guard_numbers FOR TEST
+                    li#militia_numbers FOR TEST
+            td(colspan='2')
+                | Notable Spellcasters
+                ul#spellcaster_insert
+                    li Some Dude!
+                    li Some Lady!
+        tr
+            td(colspan='2')
+                | Imports
+                ul#import_insert
+                    li 1
+                    li 2
+            td(colspan='2')
+                | Exports
+                ul#export_insert
+                    li 1
+                    li 2
+#image_div.col-md-4

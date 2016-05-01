@@ -8,16 +8,16 @@ var Shop = require('./shop.js');
 
 var citySchema= new Schema({
     city_name:[{type:String, maxLength:40}],
-    allegience:[{type:String}],
-    population:{type:Number, maxLength:8},
+    allegience:[{type:String, default:null}],
+    population:{type: Number, maxLength:8, default:0},
     city_guards:{type: Number, default:0},
-    city_militia:{type:Number, default:0},
-    lat:{type:Number, maxLength: 16},
-    lng:{type:Number, maxLength:16},
-    govtype:{type:String},
-    gov_alignment:{type:String, maxLength:18},
+    city_militia:{type: Number, default:0},
+    lat:{type:Number, maxLength: 16, default:0},
+    lng:{type:Number, maxLength:16, default:0},
+    govtype:{type:String,default:null},
+    gov_alignment:{type:String, maxLength:18,default:null},
     gov_npcs:[NPC],
-    city_description:{type:String, minlength: 100},
+    city_description:{type:String, maxlength: 1000,default:'Please Enter City Description'},
     shops:{
         general_stores:[Shop],
         tavern_and_others:[Shop],
@@ -26,8 +26,8 @@ var citySchema= new Schema({
     },
     sherrif_or_captain:[NPC],
     casters:[NPC],
-    major_exports:[{type:Array}],
-    major_imports:[{type:Array}]
+    major_exports:[{type:String}],
+    major_imports:[{type:String}]
 
 
 });

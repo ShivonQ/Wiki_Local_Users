@@ -12,13 +12,13 @@ var npc_Schema=new Schema({
     gender:{type:String,default: null},
     age:{type:Number,default: null},
     description:{type:Array,default: null},
-    //owns_shop:{
-    //    owns_a_shop:{type:Boolean, default: false},
-    //    shop:{type:Shop,default: null}
-    //},
+    level:{type:Number, default: 1},
+    class:{type: String, default: ""},
+    owns_a_shop:{type:Boolean, default:false},
     home_city:{type:String},
     notes:[{type:String,default: null}],
-    secrets:[{type:String,default: null}]
+    secrets:[{type:String,default: null}],
+    is_sheriff_or_cap:{type: Boolean, default:false}
 });
 var NPC = mongoose.model('NPC', npc_Schema, 'npcs');
 module.exports=NPC;

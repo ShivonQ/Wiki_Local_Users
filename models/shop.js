@@ -8,10 +8,10 @@ var NPC = require('./npc.js');
 
 var shop_Schema = new Schema({
     shopName:{type:String, maxLength: 60},
-    owner:[{type:NPC, default: null}],
-    employees:[{type:NPC, default: null}],
+    owner:[{type:String, default: null}],
+    employees:[{type:String, default: null}],
     shop_type:{type:String, default: null},
-    location:{type:City, default: null}
+    location:{type:String, default: null}
 });
 var Shop = mongoose.model('Shop',shop_Schema,'Shops');
 module.exports=Shop;

@@ -35,30 +35,116 @@ var Shop = require('../models/shop.js');
 
 router.post('/addcity' , function(req,res,next){
     if(!req.body || !req.body.city_name_box){
-        return next(new Error('Sorry, somehow you tried to insert data that is invalid, it will not be saved.'))
+        return next(new Error('Sorry, somehow you tried to insert data that is invalid or non-existent, it will not be saved.'))
     }
-    //console.log(JSON.stringify(req.body));
-    var list_of_gov_npcs=[];
-    var grab_gov_npcs=function(req){
-        var incremental_number=0;
-        while(req.body['gov_npc'+incremental_number]!=null){
-            console.log(req.body['gov_npc'+incremental_number]);
-            var newNPC=new NPC({
-                name:req.body['gov_npc'+incremental_number],
-                home_city:req.body.city_name_box
-            });
-            list_of_gov_npcs.push(newNPC);
-            incremental_number++;
-            console.log(list_of_gov_npcs);
-            if (incremental_number>3){
-                console.log('Breaking While Loop');
-                break;
-
+    var list_of_gov_npcs=[NPC];
+    var list_of_casters=[];
+    var list_of_genShops=[];
+    var list_of_tavShops=[];
+    var list_of_wepArmorShops=[];
+    var list_of_magicShops=[];
+    var list_of_exports=[];
+    var list_of_imports=[];
+    var captn='';
+    var parse_all_dynamic_fields=function(req){
+        obj_req=req.body;
+        for(var prop in obj_req){
+            var str_prop=String(prop);
+            //Check for Government NPCs, sort them and save them
+            if(str_prop.indexOf('gov_npc')>=0){
+                var newNPC = new NPC({
+                    name:obj_req[prop],
+                    home_city:obj_req.city_name_box
+                });
+                newNPC.save(function(err){
+                    if(err){
+                        return next(err);
+                    } else{
+                        console.log('One Government NPC saved: '+newNPC.name)
+                    }
+                });
+                list_of_gov_npcs.push(newNPC);
+                console.log(newNPC)
             }
+            //Check for caster NPCs, sort them and save them
+            if(str_prop.indexOf('caster')>=0){
+                var newCasterNPC=new NPC({
+                    name:obj_req[prop],
+                    home_city:obj_req.city_name_box
+                });
+                list_of_casters.push(newCasterNPC);
+                console.log(newCasterNPC);
+                //TODO: uncomment when others are finished
+
+                //Check for the 4 types of Stores
+            }
+            if(str_prop.indexOf('gen_store')>=0){
+                var newGenShop = new Shop({
+                    shopName:obj_req[prop]
+                });
+                list_of_genShops.push(newGenShop);
+                console.log(newGenShop);
+            //    TODO: save them, or push them
+            }
+            if(str_prop.indexOf('tavern_or_other')>=0){
+                var newTavShop = new Shop({
+                    shopName:obj_req[prop]
+                });
+                list_of_tavShops.push(newTavShop);
+                console.log(newTavShop)
+            //    TODO: save them, or push them
+            }
+            if(str_prop.indexOf('wep_armor_shop')>=0){
+                var newWepArmorShop = new Shop({
+                    shopName:obj_req[prop]
+                });
+                list_of_wepArmorShops.push(newWepArmorShop);
+                console.log(newWepArmorShop);
+            //    TODO: save them, or push them
+            }
+            if(str_prop.indexOf('magic_item_shop')>=0){
+                var newMagicShop = new Shop({
+                    shopName:obj_req[prop]
+                });
+                list_of_magicShops.push(newMagicShop);
+                console.log(newMagicShop);
+            }
+            if(str_prop.indexOf('export')>=0){
+                var export_type=obj_req[prop];
+                list_of_exports.push(export_type);
+                console.log(export_type)
+            }
+            if(str_prop.indexOf('import')>=0){
+                var import_type=obj_req[prop];
+                list_of_imports.push(import_type);
+                console.log(import_type)
+            }
+            if(str_prop.indexOf('guard_leader')>=0){
+                var captain_or_sher=new NPC({
+                    name:obj_req[prop],
+                    home_city:obj_req.city_name_box,
+                    is_sheriff_or_cap:true
+                });
+                captn=captain_or_sher;
+                console.log(captn)
+            }
+            console.log("recieved data name: "+prop+" , associated data in it: "+obj_req[prop]);
         }
     };
-    grab_gov_npcs(req);
-    var newCity=City({
+    //CALL IT!
+    parse_all_dynamic_fields(req);
+    //MAKE IT!!!!!
+
+    console.log(list_of_gov_npcs+"\n"+
+        list_of_casters+"\n"+
+        list_of_genShops+"\n"+
+        list_of_tavShops+"\n"+
+        list_of_wepArmorShops+"\n"+
+        list_of_magicShops+"\n"+
+        list_of_exports+"\n"+
+        list_of_imports);
+
+    var newCity= new City({
         city_name:req.body.city_name_box,
         allegience:req.body.allegiance_dropdown,
         population:req.body.city_pop,
@@ -68,8 +154,28 @@ router.post('/addcity' , function(req,res,next){
         lng:req.body.lng_display_box,
         govtype:req.body.gov_type_dropdown,
         gov_alignment:req.body.alignment_dropdown,
-        gov_npcs:req.body.list_of_gov_npcs
-    })
-    //console.log(req)
+        gov_npcs:list_of_gov_npcs,
+        city_description:req.body.city_description_field,
+        shops:{
+            general_stores:list_of_genShops,
+            tavern_and_other:list_of_tavShops,
+            weps_and_armor:list_of_wepArmorShops,
+            magic_shops:list_of_magicShops
+        },
+        sherrif_or_captain:captn,
+        casters:list_of_casters,
+        major_exports:list_of_exports,
+        major_imports:list_of_imports
+    });
+    //SAVE IT!!!!!!
+    newCity.save(function(err){
+        if(err){
+            return next(err);
+        } else {
+            //redirect it!!!!
+            res.redirect('/map')
+        }
+    });
+    console.log(newCity)
 })
 module.exports = router;

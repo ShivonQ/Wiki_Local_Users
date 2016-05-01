@@ -75,7 +75,7 @@ block content
                                     legend.smaller_legend Add Government NPCs
                                     input#add_gov_npc_button.add_gov(type='button', value='Add Another NPC')
                             td(colspan='2')
-                                textarea#city_description(required='required', maxlength='300') Please enter the city's description.
+                                textarea#city_description(required='required', maxlength='300', name='city_description_field') Please enter the city's description.
                         tr
                             td(colspan='4')
                                 hr.form_divider
@@ -108,13 +108,14 @@ block content
                                 hr.form_divider
                         tr
                             td Sheriff or Captain
-                            td
-                                select#captain_selector
-                                    option(value='none')
-                                    option(value='Sheriff') Sheriff
-                                    option(value='Captain') Captain
+                            //This dropdown to be moved to npc editor maybe? Boolean for sherrif or not?
+                            //td
+                            //    select#captain_selector(name='cap_or_sher_drop')
+                            //        option(value='none')
+                            //        option(value='Sheriff') Sheriff
+                            //        option(value='Captain') Captain
                             td(colspan='2')
-                                input#guard_captain(type='text', size='30', maxlength='40')
+                                input#guard_captain(type='text', size='30', maxlength='40',name='guard_leader')
                         tr
                             td(colspan='4')
                                 fieldset
