@@ -1,0 +1,28 @@
+extend layout
+include navigation
+block content
+    .npc_div
+        h1 #{title}
+        table
+            thead
+                tr
+                    th Name
+                    th Level
+                    th Class
+                    th Current City
+                    tbody
+                each npc in NPCs
+                    tr.npc_rows(class=(i % 2 == 0) ? 'odd' : 'even')
+                        td
+                            a(href='/one_npc') <strong> #{npc.name}
+                        td #{npc.level}
+
+                        if(npc.class=='')
+                            td No Class Listed
+                        else
+                            td #{npc.class}
+
+                        td #{npc.current_city}
+                        //TODO: Make this if user is admin show edit
+                        td
+                            span.glyphicon.glyphicon-edit

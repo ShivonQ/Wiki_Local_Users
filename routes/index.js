@@ -1,14 +1,24 @@
 var express = require('express');
 var router = express.Router();
+var NPC = require('../models/npc.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Welcome To Archaevas Wiki 1.0' });
 });
 router.get('/map', function(req,res,next){
   res.render('map',{ title:'Archaevas Map' })
 });
-
+router.get('/npcs', function(req,res,next){
+  NPC.find(function(err, all_npc_docs){
+    if (err){return next(err);}
+    return res.render('npcs', {
+      title:' All NPCs ',
+      NPCs:all_npc_docs,
+      error:req.flash('There was an error retrieving the NPC data from the Database')
+    })
+  })
+})
 module.exports = router;
 
 /*

@@ -145,14 +145,14 @@ router.post('/addcity' , function(req,res,next){
     parse_all_dynamic_fields(req);
     //MAKE IT!!!!!
 
-    console.log(list_of_gov_npcs+"\n"+
-        list_of_casters+"\n"+
-        list_of_genShops+"\n"+
-        list_of_tavShops+"\n"+
-        list_of_wepArmorShops+"\n"+
-        list_of_magicShops+"\n"+
-        list_of_exports+"\n"+
-        list_of_imports);
+    //console.log(list_of_gov_npcs+"\n"+
+    //    list_of_casters+"\n"+
+    //    list_of_genShops+"\n"+
+    //    list_of_tavShops+"\n"+
+    //    list_of_wepArmorShops+"\n"+
+    //    list_of_magicShops+"\n"+
+    //    list_of_exports+"\n"+
+    //    list_of_imports);
 
     var newCity= new City({
         city_name:req.body.city_name_box,
@@ -187,5 +187,7 @@ router.post('/addcity' , function(req,res,next){
         }
     });
     console.log(newCity)
-})
+});
+
+
 module.exports = router;

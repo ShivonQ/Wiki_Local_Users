@@ -25,6 +25,7 @@ app.set('view engine', 'jade');
 app.use(session({
     secret: '1010101010101010101010101010'
 }));
+app.use(flash());
 require('./config/passport')(passport);
 
 var url = 'mongodb://localhost:27017/wiki';

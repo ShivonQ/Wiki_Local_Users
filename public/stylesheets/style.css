@@ -41,6 +41,15 @@ ul{
 }
 td{
     font-size: 16px;
+    padding-right: 10px;
+    text-align: center;
+}
+tr.npc_rows{
+    border: ridge 1px;
+    border-color: #000;
+}
+th{
+    padding:10px
 }
 .smaller_legend{
     font-size: 18px;
