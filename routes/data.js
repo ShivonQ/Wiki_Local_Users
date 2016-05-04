@@ -8,30 +8,7 @@ var router = express.Router();
 var City=require('../models/city.js');
 var NPC = require('../models/npc.js');
 var Shop = require('../models/shop.js');
-/*
-* var citySchema= new Schema({
- city_name:[{type:String, maxLength:40}],
- allegience:[{type:String}],
- population:[{type:Number, maxLength:8}],
- lat:[{type:Number, maxLength: 16}],
- lng:[{type:Number, maxLength:16}],
- govtype:[{type:String}],
- gov_alignment:[{type:String, maxLength:18}],
- gov_npcs:[NPC],
- city_description:[{type:String, minlength: 100}],
- shops:{
- general_stores:[Shop],
- tavern_and_others:[Shop],
- weps_and_armor:[Shop],
- magic_shops:[Shop]
- },
- sherrif_or_captain:[NPC],
- casters:[NPC],
- major_exports:[{type:Array}],
- major_imports:[{type:Array}],
- maps:[{type:Image}
 
- * */
 
 router.post('/addcity' , function(req,res,next){
     if(!req.body || !req.body.city_name_box){
@@ -189,5 +166,10 @@ router.post('/addcity' , function(req,res,next){
     console.log(newCity)
 });
 
+router.post('/addNPC', funciton(req,res,next){
+    if(!req.body || !req.body.city_name_box){
+        return next(new Error('Sorry, somehow you tried to insert data that is invalid or non-existent, it will not be saved.'))
+    }
+})
 
 module.exports = router;

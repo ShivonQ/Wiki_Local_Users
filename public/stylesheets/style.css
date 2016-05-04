@@ -44,6 +44,18 @@ td{
     padding-right: 10px;
     text-align: center;
 }
+tr.form_row{
+    border: ridge black 1px;
+}
+td.npc_name{
+    font-size: 16px;
+    padding-right: 10px;
+    padding-left: 4px;
+    text-align: left;
+}
+th.table_head{
+    text-align: center;
+}
 tr.npc_rows{
     border: ridge 1px;
     border-color: #000;

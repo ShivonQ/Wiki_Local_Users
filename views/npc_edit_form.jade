@@ -1,1 +1,149 @@
+block content
 
+    form.npc_form
+        fieldset.outer_fieldset_for_form
+            legend#large_legend NPC Data Entry Form
+            .admin_wrapper
+                table#table_form_npc_data
+                    tr.form_row
+                        td Name:
+                        td
+                            input#npc_name_box(type='text',name='npc_name_field', size='25', maxlength='60', required='required')
+                        td Race:
+                        td
+                            input#race_input_field(type='text',name='npc_race_field', size='25', maxlength='20', required='required')
+                    tr.form_row
+                        td Gender:
+                        td
+                            select#gender_dropdown(name='gender_dropdown', required='required')
+                                option(value='') Please Select An Option
+                                option(value='female') Female
+                                option(value='male') Male
+                                option(value='not-applicable') Not Applicable
+                        td Age:
+                        td
+                            input#age_box(name='age_field', required='required')
+                    tr.form_row
+                        td(colspan=1) Description:
+                        td(colspan=3)
+                            textarea#descrip_field(name='description_field', required='required', maxlength='1000', cols='50',rows='6', placeholder='Please enter a brief description of this NPC.')
+                    tr.form_row
+                        td(colspan=1) Main Class:
+                        td(colspan=1)
+                            select#main_class(name='class_selector', required = 'required')
+                                option(value='Archivist') Archivist
+                                option(value='Ardent') Ardent
+                                option(value='Artificer') Artificer
+                                option(value='Barbarian') Barbarian
+                                option(value='Bard') Bard
+                                option(value='Battle Dancer') Battle Dancer
+                                option(value='Beguiler') Beguiler
+                                option(value='Binder') Binder
+                                option(value='Cleric') Cleric
+                                option(value='Crusader') Crusader
+                                option(value='Death Master') Death Master
+                                option(value='Divine Mind') Divine Mind
+                                option(value='Dragonfire Addept') Dragonfire Adept
+                                option(value='Dragon Shaman') Dragon Shaman
+                                option(value='Dread Necromancer') Dread Necromancer
+                                option(value='Druid') Druid
+                                option(value='Druid, Urban') Druid, Urban
+                                option(value='Duskblade') Duskblade
+                                option(value='Factotum') Factotum
+                                option(value='Favored Soul') Favored Soul
+                                option(value='Hexblade') Hexblade
+                                option(value='Incarnate') Incarnate
+                                option(value='Jester') Jester
+                                option(value='Lurk') Lurk
+                                option(value='Monk') Monk
+                                option(value='Mountebank') Mountebank
+                                option(value='Ninja') Ninja
+                                option(value='Paladin') Paladin
+                                option(value='Psion') Psion
+                                option(value='Psychic Warrior') Psychic Warrior
+                                option(value='Ranger') Ranger
+                                option(value='Savant') Savant
+                                option(value='Shadowcaster') Shadowcaster
+                                option(value="Sha'ir") Sha'ir
+                                option(value='Shugenja') Shugenja
+                                option(value='Sorcerer') Sorcerer
+                                option(value='Soulborn') Soulborn
+                                option(value='Soulknife') Soulknife
+                                option(value='Spellthief') Spellthief
+                                option(value='Spirit Shaman') Spirit Shaman
+                                option(value='Swordsage') Swordsage
+                                option(value='Totemist') Totemist
+                                option(value='Truenamer') Truenamer
+                                option(value='Warblade') Warblade
+                                option(value='Warlock') Warlock
+                                option(value='Warmage') Warmage
+                                option(value='Wilder') Wilder
+                                option(value='Wizard') Wizard
+                                option(value='Wu Jen') Wu Jen
+                        td Level:
+                        td
+                            input(type='number',min=1,max=20,step=1,size=10,name='level')
+                    tr.form_row
+                        td Do they own a shop?
+                        td
+                            | Yes :
+                            input(type='checkbox', name='owns_shop', value='true')
+                            | No :
+                            input(type='checkbox', name='owns_shop', value='false')
+
+                        td That Shops Name:
+                        td
+                            input(type='text',name='shop_name')
+                    tr.form_row
+                        td Home City:
+                        td
+                            select#home_city_selector(name='home_city_drop_down', required='required')
+                                option(value='') Select Home City
+                                each city in Cities
+                                    option(value='#{city.city_name}') #{city.city_name}
+                        td Current City:
+                        td
+                            select#current_city_selector(name='current_city_drop_down', required='required')
+                                option(value='') Select Current City
+                                each city in Cities
+                                    option(value='#{city.city_name}') #{city.city_name}
+                            // TODO:  Figure out how to have this dynamically filled with the city names.
+
+                    tr.form_row
+                        td(colspan=4)
+                            |NPC Notes:
+                            input(type='text', size=63, name='npc_notes', maxlength=200)
+                            //TODO: NOTES:  Make this more dynamicly created fields? Or parse it based on punctuation?
+                    tr.form_row
+                        td(colspan=4)
+                            |NPC Secrets:
+                            input(type='text', size=61, name='npc_notes', maxlength=200)
+                            //TODO: SECRETS: Make this whatever you decide for NOTES
+                    tr.form_row
+                        td(colspan='4')
+                            button#submit_npc_form_button(type='submit')
+                                | Save This NPC's Data:
+                                span.glyphicon.glyphicon-floppy-save
+
+    script.
+        $(document).ready(function () {
+            $("#large_legend").on("click", function () {
+                $(this).parent().find('.admin_wrapper').slideToggle("med");
+            });
+
+            $("#add_spellcaster_button").on("click", function () {
+                var all_casters = $("<div class=\"all_casters\" class=\"casters\"/>");
+                var field_name = 'caster' + $('.caster').length;
+                var caster_text_field = $("<input type=\"text\" class=\"caster\" name='newest_field'/>");
+                var remove_caster_button = $("<button  class=\"remove_caster_button\"><span class=\"glyphicon glyphicon-minus\"></span></button>");
+                //var select_caster_type = $("<select class='arc_or_div'><option value='none'></option><option value='Arcane'>Arcane</option><option value='Divine'>Divine</option>")
+                remove_caster_button.click(function () {
+                    $(this).parent().remove();
+                });
+                //all_casters.append(select_caster_type);
+                all_casters.append(caster_text_field);
+                all_casters.append(remove_caster_button);
+                $("#spellcasters_div").append(all_casters);
+                $('input[name="newest_field"]').attr('name', field_name)
+            });
+        });

@@ -1,19 +1,19 @@
 extend layout
 include navigation
 block content
-    .npc_div
+    .npc_div.col-md-6
         h1 #{title}
         table
             thead
                 tr
-                    th Name
-                    th Level
-                    th Class
-                    th Current City
+                    th.table_head Name
+                    th.table_head Level
+                    th.table_head Class
+                    th.table_head Current City
                     tbody
                 each npc in NPCs
                     tr.npc_rows(class=(i % 2 == 0) ? 'odd' : 'even')
-                        td
+                        td.npc_name
                             a(href='/one_npc') <strong> #{npc.name}
                         td #{npc.level}
 
@@ -26,3 +26,5 @@ block content
                         //TODO: Make this if user is admin show edit
                         td
                             span.glyphicon.glyphicon-edit
+
+        include npc_edit_form
