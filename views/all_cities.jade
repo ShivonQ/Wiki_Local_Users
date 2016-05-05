@@ -1,4 +1,21 @@
 extends layout
-
+include navigation
 block content
-  h1 This is the Cities Page
+  .cities_div.col-md-6
+    h1 #{title}
+    table
+      thead
+        tr
+          th.table_head City Name
+          th.table_head Population
+          th.table_head Country or Area
+          tbody
+        for city in Cities
+          tr.city_row
+            td.city_name
+              a(href='/city/:#{city.city_name}') <strong> #{city.city_name}
+            td.city_pop #{city.population}
+            td.city_allegiance #{city.allegience}
+
+            td
+              span.glyphicon.glyphicon-edit

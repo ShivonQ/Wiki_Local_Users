@@ -12,7 +12,7 @@ block content
                     th.table_head Current City
                     tbody
                 each npc in NPCs
-                    tr.npc_rows(class=(i % 2 == 0) ? 'odd' : 'even')
+                    tr.npc_row
                         td.npc_name
                             a(href='/one_npc') <strong> #{npc.name}
                         td #{npc.level}

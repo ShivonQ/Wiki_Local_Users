@@ -62,6 +62,7 @@ block content
                                 option(value='Psion') Psion
                                 option(value='Psychic Warrior') Psychic Warrior
                                 option(value='Ranger') Ranger
+                                option(value='Rogue') Rogue
                                 option(value='Savant') Savant
                                 option(value='Shadowcaster') Shadowcaster
                                 option(value="Sha'ir") Sha'ir
@@ -82,7 +83,7 @@ block content
                                 option(value='Wu Jen') Wu Jen
                         td Level:
                         td
-                            input(type='number',min=1,max=20,step=1,size=10,name='level')
+                            input(type='number',min=1,max=20,step=1,size=10,name='level_field')
                     tr.form_row
                         td Do they own a shop?
                         td
@@ -97,16 +98,25 @@ block content
                     tr.form_row
                         td Home City:
                         td
-                            select#home_city_selector(name='home_city_drop_down', required='required')
+                            select#home_city_selector(name='home_city_dropdown', required='required')
                                 option(value='') Select Home City
                                 each city in Cities
                                     option(value='#{city.city_name}') #{city.city_name}
                         td Current City:
                         td
-                            select#current_city_selector(name='current_city_drop_down', required='required')
+                            select#current_city_selector(name='current_city_dropdown', required='required')
                                 option(value='') Select Current City
                                 each city in Cities
                                     option(value='#{city.city_name}') #{city.city_name}
+                    tr.form_row
+                        td
+                        td
+                        td Sherif of Current Town?
+                        td
+                            | Yes :
+                            input(type='checkbox', name='is_sheriff', value='true')
+                            | No :
+                            input(type='checkbox', name='is_sheriff', value='false')
                             // TODO:  Figure out how to have this dynamically filled with the city names.
 
                     tr.form_row
