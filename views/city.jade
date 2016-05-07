@@ -1,1 +1,96 @@
-.col-md-5
+extend layout
+block content
+    title=title
+    .col-md-4
+        h1 IS THIS GODSMN THING EVEN WORKING?
+        table.table.table-condensed(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
+            tr
+                td(align='center', colspan='4')
+                    | City Name
+            tr
+                td(colspan='4', align='center') City Location
+            tr
+                td(align='center') Latitude:
+                td
+                td(align='center') Longitude:
+                td
+            tr
+                td(colspan='2') Population:
+                td(colspan='2') GP Limit:
+            tr
+                td(colspan='4') Government Type :::: Alignment
+            tr
+                td(colspan='4')
+                    | Government People
+                    ul
+                        // Here is where the data will be made via a unordered list creating function
+            tr
+                td(colspan='4')
+            tr
+                td(colspan='4')
+            // <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+        .col-md-4
+            table.table
+                tr
+                    td(colspan='2') Governemental NPCs
+                    td(colspan='1')
+                tr
+                    td(rowspan='2')
+                        p
+                            | NPC Name:
+                            input(type='text', name='npc-name')
+                    td
+                        button
+                            span.glyphicon.glyphicon-plus More NPCs
+                tr
+                    td
+                        button
+                            span.glyphicon.glyphicon-minus Less NPCs
+            p Governmental NPCs
+    .col-md-4
+        table.table.table-condensed(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
+            tr
+                td(colspan='4', align='center') Local Shops
+            tr
+                td(colspan='2')
+                    | General
+                    ul#general_stores_insert
+                td(colspan='2')
+                    | Taverns and Others
+                    ul#taverns_and_others_insert
+            tr
+                td(colspan='2')
+                    | Magic Item Shops
+                    ul#magic_items_store_insert
+                td(colspan='2')
+                    | Weapons and Armor
+                    ul#weapons_and_armor_insert
+    // <div id="mini_map" class="col-md-4">
+    .col-md-4
+        table.table.table-condensed(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
+            tr.accordian-toggle(data-toggle='collapse', data-target='#demo1')
+                td(colspan='2')
+                    | The Guard
+                    ul
+                        li#captain_or_sherrif_insert Sherrif:
+                        li#guard_numbers FOR TEST
+                        li#militia_numbers FOR TEST
+                td(colspan='2')
+                    | Notable Spellcasters
+                    ul
+                        li Some Dude!
+                        li Some Lady!
+            tr
+                td(colspan='2')
+                    | Imports
+                    ul
+                        li 1
+                        li 2
+                td(colspan='2')
+                    | Exports
+                    ul
+                        li 1
+                        li 2
+    script.
+    script(src='https://maps.googleapis.com/maps/api/js?callback=initMiniMap', async='', defer='')
+    script(type='text/javascript', src='make_image_map_tiles.js')

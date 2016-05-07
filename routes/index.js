@@ -60,7 +60,7 @@ router.get('/city/:city_name', function (req, res, next) {
                     return next(err);
                 }
                 console.log(city_name+' is the city_name variable');
-                console.log('+++++++++++++++++++++++ this_city_doc +++++++++++++++++++'+JSON.stringify(this_city_doc)+'+++++++++++++++++++++++ end of this_city_doc +++++++++++++++++++')
+                console.log('++++++++++++++++++++++ this_city_doc +++++++++++++++++++++++++++++++'+JSON.stringify(this_city_doc)+'+++++++++++++++++++++++ end of this_city_doc +++++++++++++++++++')
                 console.log('%%%%%%%%%%%%%%%%%%%%%% these_npcs_doc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'+JSON.stringify(these_npcs_doc)+'%%%%%%%%%%%%%%%%%%%%%% end of these_npcs_doc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
                 console.log('&&&&&&&&&&&&&&&&&&&&&& shop_doc &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'+JSON.stringify(shops_doc)+'&&&&&&&&&&&&&&&&&&&&&& end of shop_doc &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
                 return res.render('city', {

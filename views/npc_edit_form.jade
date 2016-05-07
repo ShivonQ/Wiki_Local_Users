@@ -1,6 +1,6 @@
 block content
 
-    form.npc_form
+    form.npc_form#npc_form(action='data/addNPC',method="post")
         fieldset.outer_fieldset_for_form
             legend#large_legend NPC Data Entry Form
             .admin_wrapper
@@ -140,6 +140,25 @@ block content
             $("#large_legend").on("click", function () {
                 $(this).parent().find('.admin_wrapper').slideToggle("med");
             });
+
+            $('button.delete_npc').click(function () {
+                var NPC_id = $(this).attr('npc_id');
+                var deleteURL = "/data/delete/" + NPC_id;
+                console.log('**************'+NPC_id)
+                console.log('**************'+deleteURL)
+                $.ajax(
+                        {method: 'delete', url: deleteURL}
+                ).done(function () {
+                    var selector='#'+NPC_id
+                    $(selector).fadeOut(function () {
+                        this.remove;
+                    });
+                }).fail(function () {
+                    console.log('There was a failure somehwere in the deleteion')
+                })
+            })
+
+
 
             $("#add_spellcaster_button").on("click", function () {
                 var all_casters = $("<div class=\"all_casters\" class=\"casters\"/>");

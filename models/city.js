@@ -7,7 +7,7 @@ var NPC = require('./npc.js');
 var Shop = require('./shop.js');
 
 var citySchema= new Schema({
-    city_name:[{type:String, maxLength:40}],
+    city_name:[{type:String, maxLength:40, unique:true}],
     allegience:[{type:String, default:null}],
     population:{type: Number, maxLength:8, default:0},
     city_guards:{type: Number, default:0},
