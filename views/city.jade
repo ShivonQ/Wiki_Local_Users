@@ -31,11 +31,13 @@ block content
                                 th.table_head Name
                                 th.table_head Level
                                 tbody
-                            each npc in NPCs
-                                tr
-                                    td.npc_name
-                                        a(href='/one_npc') <strong> #{npc.name}
-                                    td #{npc.level}
+                            each npc_name in City.gov_npcs
+                                each npc in NPCs
+                                    if npc.name==npc_name
+                                        tr
+                                            td.npc_name
+                                                a(href='/one_npc') <strong> #{npc.name}
+                                            td #{npc.level}
             tr
                 td(colspan=4)
                     div#mini_map
@@ -88,15 +90,31 @@ block content
             tr.accordian-toggle(data-toggle='collapse', data-target='#demo1')
                 td(colspan='2')
                     | The Guard
-                    ul
-                        li#captain_or_sherrif_insert Sherrif:
-                        li#guard_numbers FOR TEST
-                        li#militia_numbers FOR TEST
+                    table
+                        tr
+                            td(colspan=2)
+                                a(href='/one_npc') #{City.sherrif_or_captain}
+                        tr
+                            td(colspan=2)#guard_numbers Guards: #{City.city_guards}
+                        tr
+                            td(colspan=2)#militia_numbers Militia: #{City.city_militia}
                 td(colspan='2')
                     | Notable Spellcasters
-                    ul
-                        li Some Dude!
-                        li Some Lady!
+                    table(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
+                        thead
+                            tr
+                                th.table_head Name
+                                th.table_head Level
+                                th.table_head Class
+                                tbody
+                            each npc_name in City.casters
+                                each npc in NPCs
+                                    if npc.name==npc_name
+                                        tr
+                                            td.npc_name
+                                                a(href='/one_npc') <strong> #{npc.name}
+                                            td #{npc.level}
+                                            td #{npc.class}
             tr
                 td(colspan='2')
                     | Imports

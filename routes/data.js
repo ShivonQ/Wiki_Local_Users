@@ -172,57 +172,62 @@ router.post('/addcity', function (req, res, next) {
                         current_city: obj_req.city_name_box,
                         is_sheriff_or_cap: true
                     });
-                    captn = captain_or_sher.name;
-                    console.log(captn)
+                    captain_or_sher.save(function (err) {
+                        if (err) {
+                            return next(err)
+                        } else {
+                            console.log('The Sheriff or captain has been saved:  ' + captain_or_sher.name)
+                        }
+
+                    });
                 }
+                console.log("recieved data name: " + prop + " , associated data in it: " + obj_req[prop]);
             }
-            console.log("recieved data name: " + prop + " , associated data in it: " + obj_req[prop]);
         }
-    };
 //CALL IT!
-    parse_all_dynamic_fields(req);
-    var newCity = new City({
-        city_name: req.body.city_name_box,
-        allegience: req.body.allegiance_dropdown,
-        population: req.body.city_pop,
-        city_guards: (req.body.city_pop * 0.01).toFixed(0),
-        city_militia: (req.body.city_pop * 0.05).toFixed(0),
-        lat: req.body.lat_display_box,
-        lng: req.body.lng_display_box,
-        govtype: req.body.gov_type_dropdown,
-        gov_alignment: req.body.alignment_dropdown,
-        gov_npcs: list_of_gov_npcs,
-        city_description: req.body.city_description_field,
-        shops: {
-            general_stores: list_of_genShops,
-            tavern_and_others: list_of_tavShops,
-            weps_and_armor: list_of_wepArmorShops,
-            magic_shops: list_of_magicShops
-        },
-        sherrif_or_captain: captn,
-        casters: list_of_casters,
-        major_exports: list_of_exports,
-        major_imports: list_of_imports
-    });
+        parse_all_dynamic_fields(req);
+        var newCity = new City({
+            city_name: req.body.city_name_box,
+            allegience: req.body.allegiance_dropdown,
+            population: req.body.city_pop,
+            city_guards: (req.body.city_pop * 0.01).toFixed(0),
+            city_militia: (req.body.city_pop * 0.05).toFixed(0),
+            lat: req.body.lat_display_box,
+            lng: req.body.lng_display_box,
+            govtype: req.body.gov_type_dropdown,
+            gov_alignment: req.body.alignment_dropdown,
+            gov_npcs: list_of_gov_npcs,
+            city_description: req.body.city_description_field,
+            shops: {
+                general_stores: list_of_genShops,
+                tavern_and_others: list_of_tavShops,
+                weps_and_armor: list_of_wepArmorShops,
+                magic_shops: list_of_magicShops
+            },
+            sherrif_or_captain: captn,
+            casters: list_of_casters,
+            major_exports: list_of_exports,
+            major_imports: list_of_imports
+        });
 //SAVE IT!!!!!!
-    newCity.save(function (err) {
-        if (err) {
-            return next(err);
-        } else {
-            //redirect it!!!!
-            res.redirect('/map')
-        }
-    });
-    console.log(newCity)
-})
-;
+        newCity.save(function (err) {
+            if (err) {
+                return next(err);
+            } else {
+                //redirect it!!!!
+                res.redirect('/map')
+            }
+        });
+        console.log(newCity)
+    }
+});
 
 router.post('/addNPC', function (req, res, next) {
     if (!req.body || !req.body.npc_name_field) {
         return next(new Error('Sorry, somehow you tried to insert data that is invalid or non-existent, it will not be saved.'))
     }
     var obj_req = req.body;
-    console.log(JSON.stringify(obj_req)+"&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    console.log(JSON.stringify(obj_req) + "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
     var newNPC = new NPC({
         name: obj_req.npc_name_field,
         race: obj_req.npc_race_field,
@@ -238,7 +243,7 @@ router.post('/addNPC', function (req, res, next) {
         secrets: obj_req.npc_secrets,
         is_sheriff_or_cap: obj_req.is_sheriff
     });
-    console.log("*****************************"+newNPC+"*************************");
+    console.log("*****************************" + newNPC + "*************************");
     newNPC.save(function (err) {
         if (err) {
             return next(err);
@@ -249,11 +254,11 @@ router.post('/addNPC', function (req, res, next) {
     });
 });
 
-router.delete('/delete/:npc_id', function(req,res,next){
-    console.log("**********************"+JSON.stringify(req)+"***********************");
-    NPC.findByIdAndRemove(req.npc._id, function(error, result){
+router.delete('/delete/:npc_id', function (req, res, next) {
+    console.log("**********************" + JSON.stringify(req) + "***********************");
+    NPC.findByIdAndRemove(req.npc._id, function (error, result) {
         console.log(req.npc._id);
-        if(error){
+        if (error) {
             return next(error);
         }
         res.redirect('/npcs')
