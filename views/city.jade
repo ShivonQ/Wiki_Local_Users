@@ -1,71 +1,88 @@
 extend layout
 block content
+    script.
+    script(src='https://maps.googleapis.com/maps/api/js?callback=initMiniMap', async='', defer='')
+    script(type='text/javascript', src='../javascripts/make_image_map_tiles.js')
+
     title=title
     .col-md-4
-        h1 IS THIS GODSMN THING EVEN WORKING?
-        table.table.table-condensed(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
+        table(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
             tr
-                td(align='center', colspan='4')
-                    | City Name
+                td(align='center', colspan='4') #{City.city_name}
+
             tr
                 td(colspan='4', align='center') City Location
             tr
                 td(align='center') Latitude:
-                td
+                td.lat_insert #{City.lat}
                 td(align='center') Longitude:
-                td
+                td.lng_insert #{City.lng}
             tr
-                td(colspan='2') Population:
-                td(colspan='2') GP Limit:
+                td(colspan='4') Population: #{City.population}
             tr
-                td(colspan='4') Government Type :::: Alignment
+                td(colspan=2) Government Type :#{City.govtype}
+                td(colspan=2) Alignment: #{City.gov_alignment}
             tr
                 td(colspan='4')
                     | Government People
-                    ul
-                        // Here is where the data will be made via a unordered list creating function
+                    table(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
+                        thead
+                            tr
+                                th.table_head Name
+                                th.table_head Level
+                                tbody
+                            each npc in NPCs
+                                tr
+                                    td.npc_name
+                                        a(href='/one_npc') <strong> #{npc.name}
+                                    td #{npc.level}
             tr
-                td(colspan='4')
+                td(colspan=4)
+                    div#mini_map
             tr
-                td(colspan='4')
-            // <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
-        .col-md-4
-            table.table
-                tr
-                    td(colspan='2') Governemental NPCs
-                    td(colspan='1')
-                tr
-                    td(rowspan='2')
-                        p
-                            | NPC Name:
-                            input(type='text', name='npc-name')
-                    td
-                        button
-                            span.glyphicon.glyphicon-plus More NPCs
-                tr
-                    td
-                        button
-                            span.glyphicon.glyphicon-minus Less NPCs
-            p Governmental NPCs
+                td(colspan='4') #{City.city_description}
+
+
     .col-md-4
         table.table.table-condensed(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
             tr
                 td(colspan='4', align='center') Local Shops
             tr
                 td(colspan='2')
-                    | General
-                    ul#general_stores_insert
+                    h4 <strong> General Stores </strong>
+                    table
+                        each shop in Shops
+                            if shop.shop_type=='gen_store'
+                                tr
+                                    td.shop_name
+                                        a(href='/shop') #{shop.shopName}
                 td(colspan='2')
-                    | Taverns and Others
-                    ul#taverns_and_others_insert
+                    h4 <strong> Taverns and Speciality Shops </strong>
+                        table
+                            each shop in Shops
+                                if shop.shop_type == 'tavern_or_other'
+                                    tr
+                                        td.shop_name
+                                            a(href='/shop') #{shop.shopName}
             tr
                 td(colspan='2')
-                    | Magic Item Shops
-                    ul#magic_items_store_insert
+                    h4 <strong> Magic Item Shops </strong>
+
+                        table
+                            each shop in Shops
+                                if shop.shop_type == 'magic_item_shop'
+                                    tr
+                                        td.shop_name
+                                            a(href='/shop') #{shop.shopName}
                 td(colspan='2')
-                    | Weapons and Armor
-                    ul#weapons_and_armor_insert
-    // <div id="mini_map" class="col-md-4">
+                    h4 <strong> Weapons and Armor </strong>
+
+                        table
+                            each shop in Shops
+                                if shop.shop_type == 'wep_armor_shop'
+                                    tr
+                                        td.shop_name
+                                            a(href='/shop') #{shop.shopName}
     .col-md-4
         table.table.table-condensed(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
             tr.accordian-toggle(data-toggle='collapse', data-target='#demo1')
@@ -91,6 +108,4 @@ block content
                     ul
                         li 1
                         li 2
-    script.
-    script(src='https://maps.googleapis.com/maps/api/js?callback=initMiniMap', async='', defer='')
-    script(type='text/javascript', src='make_image_map_tiles.js')
+

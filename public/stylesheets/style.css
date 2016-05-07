@@ -66,3 +66,8 @@ th{
 .smaller_legend{
     font-size: 18px;
 }
+#mini_map{
+    height: 200px;
+    width: 100%;
+    border: groove 2px black;
+}

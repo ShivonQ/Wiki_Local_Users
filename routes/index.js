@@ -46,28 +46,27 @@ router.get('/city/:city_name', function (req, res, next) {
     if(city_name.charAt(0)==':'){
         city_name=city_name.slice(1)
     }
-    console.log(req);
-    City.find({city_name: city_name}, function (err, this_city_doc) {
+    City.findOne({city_name: city_name}, function (err, this_city_doc) {
         if (err) {
             return next(err);
         }
-        NPC.find({'current_city': city_name}, function (err, these_npcs_doc) {
+        NPC.find({current_city: city_name}, function (err, these_npcs_doc) {
             if (err) {
                 return next(err)
             }
-            Shop.find({'location': city_name}, function (err, shops_doc) {
+            Shop.find({location: city_name}, function (err, shops_doc) {
                 if (err) {
                     return next(err);
                 }
                 console.log(city_name+' is the city_name variable');
-                console.log('++++++++++++++++++++++ this_city_doc +++++++++++++++++++++++++++++++'+JSON.stringify(this_city_doc)+'+++++++++++++++++++++++ end of this_city_doc +++++++++++++++++++')
-                console.log('%%%%%%%%%%%%%%%%%%%%%% these_npcs_doc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'+JSON.stringify(these_npcs_doc)+'%%%%%%%%%%%%%%%%%%%%%% end of these_npcs_doc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-                console.log('&&&&&&&&&&&&&&&&&&&&&& shop_doc &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'+JSON.stringify(shops_doc)+'&&&&&&&&&&&&&&&&&&&&&& end of shop_doc &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+                //console.log('++++++++++++++++++++++ this_city_doc +++++++++++++++++++++++++++++++'+JSON.stringify(this_city_doc)+'+++++++++++++++++++++++ end of this_city_doc +++++++++++++++++++')
+                //console.log('%%%%%%%%%%%%%%%%%%%%%% these_npcs_doc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'+JSON.stringify(these_npcs_doc)+'%%%%%%%%%%%%%%%%%%%%%% end of these_npcs_doc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+                //console.log('&&&&&&&&&&&&&&&&&&&&&& shop_doc &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'+JSON.stringify(shops_doc)+'&&&&&&&&&&&&&&&&&&&&&& end of shop_doc &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
                 return res.render('city', {
                     title: city_name,
-                    City: this_city_doc,
-                    NPCs: these_npcs_doc,
-                    Shops: shops_doc
+                    City: (this_city_doc),
+                    NPCs: (these_npcs_doc),
+                    Shops: (shops_doc)
                 })
             })
         })

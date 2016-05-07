@@ -39,9 +39,10 @@ function initMap() {
     map.setMapTypeId('archaevas');
 }
 function initMiniMap() {
-    var lat=parseFloat(document.getElementById('lat_insert').innerHTML);
-    var lng=parseFloat(document.getElementById('lng_insert').innerHTML);
-    var my_mini_lat_lng={lat: lat,lng: lng}
+    var lat=parseFloat($('.lat_insert').text());
+    var lng=parseFloat($('.lng_insert').text());
+    var my_mini_lat_lng={lat: lat,lng: lng};
+    console.log(lat+"IS THE LAT"+lng+"IS THE LNG");
     var mini_map = new google.maps.Map(document.getElementById('mini_map'), {
         center: my_mini_lat_lng,
         zoom: 4,
@@ -54,7 +55,7 @@ function initMiniMap() {
     var city_marker=new google.maps.Marker({
         position:my_mini_lat_lng,
         map:mini_map,
-        title:document.getElementById('city_name').innerHTML
+        title:$('#city_name').innerHTML
     });
 
     mini_map.addListener('center_changed',function() {
