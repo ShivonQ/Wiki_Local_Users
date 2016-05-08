@@ -29,6 +29,35 @@ router.get('/npcs', function (req, res, next) {
         })
     })
 });
+router.get('/one_npc/:name' , function(req,res,next){
+    var npc_name= req.params.name;
+    if(npc_name.charAt(0)==':'){
+        npc_name=npc_name.slice(1)
+    }
+    NPC.findOne({name:npc_name}, function(err, this_npc_doc){
+        if(err){
+            return next(err)
+        }
+        City.find({}, function(err, all_cities_docs){
+            if(err){
+                return next(err);
+            }
+            Shop.findOne({owner:npc_name},function(err, this_shop_doc){
+                if(err){
+                    return next(err)
+                } if (this_shop_doc==null){
+                    this_shop_doc='';
+                }
+                return res.render('one_npc',{
+                    title: npc_name,
+                    NPC:this_npc_doc,
+                    Cities:all_cities_docs,
+                    Shop:this_shop_doc
+                })
+            })
+        })
+    })
+});
 router.get('/all_cities', function (req, res, next) {
     City.find({}, function (err, all_cities_docs) {
         if (err) {
@@ -59,9 +88,7 @@ router.get('/city/:city_name', function (req, res, next) {
                     return next(err);
                 }
                 console.log(city_name+' is the city_name variable');
-                //console.log('++++++++++++++++++++++ this_city_doc +++++++++++++++++++++++++++++++'+JSON.stringify(this_city_doc)+'+++++++++++++++++++++++ end of this_city_doc +++++++++++++++++++')
-                //console.log('%%%%%%%%%%%%%%%%%%%%%% these_npcs_doc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'+JSON.stringify(these_npcs_doc)+'%%%%%%%%%%%%%%%%%%%%%% end of these_npcs_doc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-                //console.log('&&&&&&&&&&&&&&&&&&&&&& shop_doc &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'+JSON.stringify(shops_doc)+'&&&&&&&&&&&&&&&&&&&&&& end of shop_doc &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+
                 return res.render('city', {
                     title: city_name,
                     City: (this_city_doc),
@@ -71,7 +98,7 @@ router.get('/city/:city_name', function (req, res, next) {
             })
         })
     })
-})
+});
 module.exports = router;
 
 /*

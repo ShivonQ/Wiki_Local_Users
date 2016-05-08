@@ -14,7 +14,7 @@ block content
                 each npc in NPCs
                     tr.npc_row(id=npc.name)
                         td.npc_name
-                            a(href='/one_npc') <strong> #{npc.name}
+                            a(href='/one_npc/:#{npc.name}') <strong> #{npc.name}
                         td #{npc.level}
 
                         if(npc.class=='')

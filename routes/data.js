@@ -254,14 +254,26 @@ router.post('/addNPC', function (req, res, next) {
     });
 });
 
+router.param('npc_id', function(req,res,next,npcId){
+  console.log('parameter has been removed, it is '+npcId);
+    NPC.findById(npcId, function(err, npc){
+        if(err){
+            return next(err);
+        }
+        req.npc=npc;
+        return next();
+    })
+});
+
 router.delete('/delete/:npc_id', function (req, res, next) {
-    console.log("**********************" + JSON.stringify(req) + "***********************");
     NPC.findByIdAndRemove(req.npc._id, function (error, result) {
         console.log(req.npc._id);
         if (error) {
-            return next(error);
+            console.log('THIS eRrOR MESSAGE IS COMING FROM THE ROUTER')
+            return next(500);
         }
-        res.redirect('/npcs')
+        console.log('THIS MESSAGE IS COMING FROM THE ROUTER')
+        res.sendStatus(200)
     })
 });
 module.exports = router;

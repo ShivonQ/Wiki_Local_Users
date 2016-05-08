@@ -36,7 +36,7 @@ block content
                                     if npc.name==npc_name
                                         tr
                                             td.npc_name
-                                                a(href='/one_npc') <strong> #{npc.name}
+                                                a(href='/one_npc/:#{npc.name}') <strong> #{npc.name}
                                             td #{npc.level}
             tr
                 td(colspan=4)
@@ -93,7 +93,7 @@ block content
                     table
                         tr
                             td(colspan=2)
-                                a(href='/one_npc') #{City.sherrif_or_captain}
+                                a(href='/one_npc/:#{City.sherrif_or_captain}') #{City.sherrif_or_captain}
                         tr
                             td(colspan=2)#guard_numbers Guards: #{City.city_guards}
                         tr
@@ -112,18 +112,19 @@ block content
                                     if npc.name==npc_name
                                         tr
                                             td.npc_name
-                                                a(href='/one_npc') <strong> #{npc.name}
+                                                a(href='/one_npc/:#{npc.name}') <strong> #{npc.name}
                                             td #{npc.level}
                                             td #{npc.class}
             tr
                 td(colspan='2')
                     | Imports
                     ul
-                        li 1
-                        li 2
+                        for imports in City.major_imports
+                            li #{imports}
+
                 td(colspan='2')
                     | Exports
                     ul
-                        li 1
-                        li 2
+                        for exports in City.major_exports
+                            li #{exports}
 
