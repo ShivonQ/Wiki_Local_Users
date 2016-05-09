@@ -1,0 +1,15 @@
+extends layout
+block content
+
+    form(action='/signup' method = 'post')
+        label Username
+        input(type='text' name = 'username' required)
+        br
+        label Password
+        input(type='password' name='password' required)
+        br
+        //label Name Of Your Main Character In This Game
+        //input(type='text' name='char_name' required)
+        //br
+        input(type='submit' name='submit' value = 'Sign up')
+    |<p>If you have already signed up you can just <a href='/login'>log in here</a></p>

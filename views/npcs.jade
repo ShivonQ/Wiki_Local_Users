@@ -14,7 +14,7 @@ block content
                 each npc in NPCs
                     tr.npc_row(id=npc.name)
                         td.npc_name
-                            a(href='/one_npc/:#{npc.name}') <strong> #{npc.name}
+                            a(href='/one_npc/#{npc.name}') <strong> #{npc.name}
                         td #{npc.level}
 
                         if(npc.class=='')
@@ -24,9 +24,11 @@ block content
 
                         td #{npc.current_city}
                         //TODO: Make this if user is admin show edit
-                        td
-                            span.glyphicon.glyphicon-edit
-                        td
-                            button.delete_npc(npc_id=npc._id)
-                                span.glyphicon.glyphicon-remove
-        include npc_edit_form
+                        if(user.isAdmin=true)
+                            td
+                                span.glyphicon.glyphicon-edit
+                            td
+                                button.delete_npc(npc_id=npc._id)
+                                    span.glyphicon.glyphicon-remove
+        if(user.isAdmin=true)
+            include npc_edit_form

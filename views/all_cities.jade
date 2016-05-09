@@ -19,3 +19,9 @@ block content
 
             td
               span.glyphicon.glyphicon-edit
+  if user.isAdmin=true
+    script.
+      console.log('User is an admin')
+    p user is an admin
+    div.city_form
+      include city_form

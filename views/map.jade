@@ -4,6 +4,7 @@ block content
   script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?callback=initMap', async defer)
   script(type='text/javascript', src='./javascripts/make_image_map_tiles.js')
   h1 
-    div#map_wrapper.col-md-6
+    div#map_wrapper.col-lg-8
       div#map
+    if user.isAdmin=true
       include city_form

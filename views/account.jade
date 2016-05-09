@@ -1,20 +1,85 @@
 //
    Created by School on 4/21/2016.
 extends layout
+block content
 
-        title= title
-        meta(name='viewport', content='width=device-width, initial-scale=1.0')
-        link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
-    body
-    .container
-        h1 You are logged in.
+    h2 Welcome to your user account page #{user.username}!
+    h4 as you can see there is very little on this page currently.  More will be coming in the future
 
-        a(href="/") Go home
-        br
-        a(href="/ping") Ping
-        br
-        br
-        a(href="/logout") Logout
 
-    script(src='http://code.jquery.com/jquery.js')
-    script(src='js/bootstrap.min.js')
+    if(message!=1)
+        form#PC_CREATE(action='/data/addPC' method='POST')
+            label Name Of Your Main Character In This Game
+            input(type='text' name='char_name' required)
+            br
+            label Age
+            input(type='number' name='char_age')
+            br
+            label Race
+            input(type='text' name='char_race')
+            br
+            label Base Class
+            select#main_class(name='char_base_class', required = 'required')
+                option(value='Adept') Adept
+                option(value='Archivist') Archivist
+                option(value='Ardent') Ardent
+                option(value='Aristocrat') Aristocrat
+                option(value='Artificer') Artificer
+                option(value='Barbarian') Barbarian
+                option(value='Bard') Bard
+                option(value='Battle Dancer') Battle Dancer
+                option(value='Beguiler') Beguiler
+                option(value='Binder') Binder
+                option(value='Cleric') Cleric
+                option(value='Commoner') Commoner
+                option(value='Crusader') Crusader
+                option(value='Death Master') Death Master
+                option(value='Divine Mind') Divine Mind
+                option(value='Dragonfire Addept') Dragonfire Adept
+                option(value='Dragon Shaman') Dragon Shaman
+                option(value='Dread Necromancer') Dread Necromancer
+                option(value='Druid') Druid
+                option(value='Druid, Urban') Druid, Urban
+                option(value='Duskblade') Duskblade
+                option(value='Expert') Expert
+                option(value='Factotum') Factotum
+                option(value='Favored Soul') Favored Soul
+                option(value='Fighter') Fighter
+                option(value='Hexblade') Hexblade
+                option(value='Incarnate') Incarnate
+                option(value='Jester') Jester
+                option(value='Lurk') Lurk
+                option(value='Monk') Monk
+                option(value='Mountebank') Mountebank
+                option(value='Ninja') Ninja
+                option(value='Paladin') Paladin
+                option(value='Psion') Psion
+                option(value='Psychic Warrior') Psychic Warrior
+                option(value='Ranger') Ranger
+                option(value='Rogue') Rogue
+                option(value='Savant') Savant
+                option(value='Shadowcaster') Shadowcaster
+                option(value="Sha'ir") Sha'ir
+                option(value='Shugenja') Shugenja
+                option(value='Sorcerer') Sorcerer
+                option(value='Soulborn') Soulborn
+                option(value='Soulknife') Soulknife
+                option(value='Spellthief') Spellthief
+                option(value='Spirit Shaman') Spirit Shaman
+                option(value='Swordsage') Swordsage
+                option(value='Totemist') Totemist
+                option(value='Truenamer') Truenamer
+                option(value='Warblade') Warblade
+                option(value='Warlock') Warlock
+                option(value='Warmage') Warmage
+                option(value='Warrior') Warrior
+                option(value='Wilder') Wilder
+                option(value='Wizard') Wizard
+                option(value='Wu Jen') Wu Jen
+            label Level
+            input(type='number',min=1,max=20,step=1,size=10,name='level_field' required)
+            br
+            input(type='submit' name='submit' value='Submit Character')
+    //else
+    //    for data in PC
+    //        p #{data}

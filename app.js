@@ -28,6 +28,10 @@ app.use(session({
 app.use(flash());
 require('./config/passport')(passport);
 
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
 var url = 'mongodb://localhost:27017/wiki';
 var db = mongoose.connect(url);
 

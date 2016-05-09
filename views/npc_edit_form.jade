@@ -31,8 +31,10 @@ block content
                         td(colspan=1) Main Class:
                         td(colspan=1)
                             select#main_class(name='class_selector', required = 'required')
+                                option(value='Adept') Adept
                                 option(value='Archivist') Archivist
                                 option(value='Ardent') Ardent
+                                option(value='Aristocrat') Aristocrat
                                 option(value='Artificer') Artificer
                                 option(value='Barbarian') Barbarian
                                 option(value='Bard') Bard
@@ -40,6 +42,7 @@ block content
                                 option(value='Beguiler') Beguiler
                                 option(value='Binder') Binder
                                 option(value='Cleric') Cleric
+                                option(value='Commoner') Commoner
                                 option(value='Crusader') Crusader
                                 option(value='Death Master') Death Master
                                 option(value='Divine Mind') Divine Mind
@@ -49,8 +52,10 @@ block content
                                 option(value='Druid') Druid
                                 option(value='Druid, Urban') Druid, Urban
                                 option(value='Duskblade') Duskblade
+                                option(value='Expert') Expert
                                 option(value='Factotum') Factotum
                                 option(value='Favored Soul') Favored Soul
+                                option(value='Fighter') Fighter
                                 option(value='Hexblade') Hexblade
                                 option(value='Incarnate') Incarnate
                                 option(value='Jester') Jester
@@ -78,6 +83,7 @@ block content
                                 option(value='Warblade') Warblade
                                 option(value='Warlock') Warlock
                                 option(value='Warmage') Warmage
+                                option(value='Warrior') Warrior
                                 option(value='Wilder') Wilder
                                 option(value='Wizard') Wizard
                                 option(value='Wu Jen') Wu Jen
@@ -143,7 +149,7 @@ block content
 
             $('button.delete_npc').click(function () {
                 var NPC_id = $(this).attr('npc_id');
-                var deleteURL = "/data/delete/:" + NPC_id;
+                var deleteURL = "/data/delete/" + NPC_id;
                 console.log('**************'+NPC_id)
                 console.log('**************'+deleteURL)
                 $.ajax(
