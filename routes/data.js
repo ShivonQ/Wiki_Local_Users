@@ -8,8 +8,8 @@ var router = express.Router();
 var City = require('../models/city.js');
 var NPC = require('../models/npc.js');
 var Shop = require('../models/shop.js');
-var PC = require('../playerChar');
-var User = require('../user.js');
+var PC = require('../models/playerChar.js');
+var User = require('../models/user.js');
 
 function isLoggedIn(req,res,next){
     if(req.isAuthenticated()){
@@ -273,13 +273,16 @@ router.post('/addNPC',isLoggedIn, function (req, res, next) {
     }
 });
 router.post('/addPC',isLoggedIn, function(req,res,next){
+    console.log(req.body);
+    var num_chars=req.user.local.number_of_characters;
     if(!req.body || !req.body.char_name){
         return next(new Error('Sorry, somehow you tried to insert data that is invalid or non-existent, it will not be saved.'))
     }
-    if (req.user.local.number_of_characters>=0){
+    if (req.user.local.number_of_characters>0){
+        console.log(req.user.local.number_of_characters+'\nfirst user conlog')
         req.flash('You already have 1 Character, the ability to have more than one will be coming in a later version.')
     }
-    else{
+    else if(num_chars==0 && req.user.local.isAdmin==false){
         var newPC= new PC({
             player:req.user.local.username,
             character_name:req.body.char_name,
@@ -289,21 +292,49 @@ router.post('/addPC',isLoggedIn, function(req,res,next){
                 the_class:req.body.char_base_class,
                 level:req.body.level_field
             }
+        });
+        console.log('second conlog\n'+newPC);
+        newPC.save(function(err){
+            if(err){
+                return next(err);
+            }
+            num_chars++;
+            res.redirect('/all_PCs')
         })
+        User.findOneAndUpdate({number_of_characters:num_chars},function(err,result){
+            console.log('user updated on PC save');
+            if(err){
+                return next(err)
+            }
+        })
+    }
+    else if(req.user.local.isAdmin==true){
+         newPC= new PC({
+            player:req.user.local.username,
+            character_name:req.body.char_name,
+            age:req.body.char_age,
+            race:req.body.char_race,
+            base_class:{
+                the_class:req.body.char_base_class,
+                level:req.body.level_field
+            }
+        });
         newPC.save(function(err){
             if(err){
                 return next(err);
             }else{
                 res.redirect('/all_PCs')
             }
+        });
+        User.findOneAndUpdate({number_of_characters:num_chars},function(err,result){
+            console.log('user updated on PC save');
+            if(err){
+                return next(err)
+            }
         })
     }
-    //TODO basic logic: find and update user after PC is made.  Add the Name to their characters,
-    //Then make it check how many characters the user has, and then if they are an admin
-    //If they have 1 then don't allow them to make another
-    var isAdmin=req.user.local.isAdmin;
+});
 
-})
 router.param('npc_id',function(req,res,next,npcId){
   console.log('parameter has been removed, it is '+npcId);
     NPC.findById(npcId, function(err, npc){
@@ -333,5 +364,60 @@ router.delete('/delete/:npc_id',isLoggedIn, function (req, res, next) {
         res.sendStatus(200)
     })
     }
+});
+router.put('/update_pc_age', function(req,res){
+
+    var filter = {character_name:req.body.character_name};
+    var update={$set:req.body};
+    PC.findOneAndUpdate(filter,{'age':req.body.age},function(err,result){
+        if(err){
+            console.log("error while updateing the age of the PC:"+err);
+            return res.sendStatus(500);
+        } else {
+            console.log('update PC age -:'+result);
+            return res.send({'age':req.body.age})
+        }
+    })
+});
+router.put('/update_pc_race',function(req,res){
+    var filter={character_name:req.body.character_name};
+    var update={$set:req.body};
+    PC.findOneAndUpdate(filter,{'race':req.body.race},function(err,result) {
+        if (err) {
+            console.log("error while updateing the race of the PC:" + err);
+            return res.sendStatus(500);
+        } else {
+            console.log('updated PC race' + result);
+            return res.send({'race': req.body.race})
+        }
+    })
+});
+router.put('/update_pc_class',function(req,res){
+    var filter={character_name:req.body.character_name};
+    var update={$set:req.body};
+    PC.findOneAndUpdate(filter,{'the_class':req.body.the_class},function(err,result) {
+        if (err) {
+            console.log("error while updateing the race of the PC:" + err);
+            return res.sendStatus(500);
+        } else {
+            console.log('updated PC race' + result);
+            return res.send({'the_class': req.body.class})
+        }
+    })
+});
+router.put('/update_pc_level',function(req,res){
+    var filter={character_name:req.body.character_name};
+    console.log(filter)
+    var update={$set:req.body};
+    console.log(update)
+    PC.findOneAndUpdate(filter,{'level':req.bodylevel},function(err,result) {
+        if (err) {
+            console.log("error while updateing the level of the PC:" + err);
+            return res.sendStatus(500);
+        } else {
+            console.log('updated PC level' + result);
+            return res.send({'level': req.body.level})
+        }
+    })
 });
 module.exports = router;

@@ -61,6 +61,10 @@ tr.npc_rows{
     border: ridge 1px;
     border-color: #000;
 }
+th.left_th{
+    scope:row;
+    padding-right: 1em;
+}
 th{
     padding:10px
 }
@@ -71,4 +75,7 @@ th{
     height: 200px;
     width: 100%;
     border: groove 2px black;
+}
+table{
+    margin-top: 15px;
 }

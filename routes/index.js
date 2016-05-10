@@ -6,7 +6,7 @@ var NPC = require('../models/npc.js');
 var City = require('../models/city.js');
 var Shop = require('../models/shop.js');
 var User = require('../models/user.js');
-var PlayerChar = require('../models/playerChar.js');
+var PC = require('../models/playerChar.js');
 
 
 /* GET home page. */
@@ -57,7 +57,6 @@ router.get('/npcs', isLoggedIn, function (req, res, next) {
         })
     })
 });
-
 router.get('/one_npc/:name', isLoggedIn, function (req, res, next) {
     var isAdmin = req.user.isAdmin;
     var npc_name = req.params.name;
@@ -90,6 +89,42 @@ router.get('/one_npc/:name', isLoggedIn, function (req, res, next) {
         })
     })
 });
+router.get('/all_PCs', isLoggedIn, function(req,res,next){
+    PC.find({},function(err, all_PC_docs){
+        if (err){
+            return(next(err))
+        }
+        return res.render('all_PCs',{
+            title:'Every Player\'s Character',
+            PCs:all_PC_docs,
+            user:req.user
+        })
+    })
+});
+router.get('/a_PC/:PC_name',isLoggedIn,function(req,res,next){
+    console.log(req)
+    var pc_name=req.params.PC_name;
+    if(pc_name.charAt(0)==':'){
+        pc_name=pc_name.slice(1);
+    }
+    PC.findOne({character_name:pc_name}, function(err,this_pc_doc){
+        if(err){
+            return next(err)
+        }
+        City.find({},function(err,all_cities_docs){
+            if(err){
+                return next(err)
+            }
+            return res.render('a_PC', {
+                title:'Single Player Character Page',
+                PC:this_pc_doc,
+                Cities:all_cities_docs,
+                user:req.user
+            })
+        })
+    })
+})
+
 router.get('/all_cities', isLoggedIn, function (req, res, next) {
     City.find({}, function (err, all_cities_docs) {
         if (err) {

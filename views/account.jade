@@ -7,7 +7,7 @@ block content
     h4 as you can see there is very little on this page currently.  More will be coming in the future
 
 
-    if(message!=1)
+    if(user.number_of_characters=0)
         form#PC_CREATE(action='/data/addPC' method='POST')
             label Name Of Your Main Character In This Game
             input(type='text' name='char_name' required)
@@ -79,7 +79,7 @@ block content
             label Level
             input(type='number',min=1,max=20,step=1,size=10,name='level_field' required)
             br
-            input(type='submit' name='submit' value='Submit Character')
+            input(type='submit' value='Submit Character')
     //else
     //    for data in PC
     //        p #{data}

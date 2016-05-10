@@ -10,6 +10,7 @@ var playerChar_Schema=new Schema({
     player:{type:String, required:true},
     character_name:{type: String, required:true, unique:true},
     age:{type:Number, default:null},
+    race:{type:String,default:null},
     base_class:[{
         the_class:{type:String, default: null},
         level:{type:Number, max:20, default:null}

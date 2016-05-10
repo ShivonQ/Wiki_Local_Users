@@ -1,0 +1,200 @@
+//
+   Created by School on 5/9/2016.
+
+extends layout
+block content
+    .info_block
+        table
+            tr
+                th(colspan=2)#PC_name #{PC.character_name}
+                    if(user.username = PC.player)
+                        span.glyphicon.glyphicon-edit#edit_char_name
+            tr
+                th.left_th Age
+                td.right_td#char_age #{PC.age}
+                    if(user.username = PC.player)
+                        span.glyphicon.glyphicon-edit#edit_char_age
+            tr
+                th.left_th Race
+                td.right_td#char_race #{PC.race}
+                    if(user.username = PC.player)
+                        span.glyphicon.glyphicon-edit#edit_char_race
+            tr
+                th.left_th Base Class
+                td.right_td#char_class #{PC.base_class[0].the_class}
+                    if(user.username = PC.player)
+                        span.glyphicon.glyphicon-edit#edit_char_class
+            tr
+                th.left_th Level
+                td.right_td#char_level #{PC.base_class[0].level}
+                    if(user.username = PC.player)
+                        span.glyphicon.glyphicon-edit#edit_char_level
+            //    TODO: Once project is over, make this all correct. Make them all editable
+            //tr
+            //    th.left_th Religion
+            //    td.right_td #{PC.religion}
+            //tr
+            //    th.left_th Alignment
+            //    td.right_td #{PC.alignment}
+            //tr
+            //    th.left_th Home Country
+            //    td.right_td #{PC.home_country}
+            //tr
+            //    th.left_th Known Family
+            //    td.right_td
+            //        ul.PC_family
+            //            li.family_member <strong>Father:</strong>
+            //                a(href='/a_npc/:#{PC.family_members.father}') #{PC.family_members.father}
+            //            li.family_member <strong>Mother:</strong>
+            //                a(href='/a_npc/:#{PC.family_members.mother}') #{PC.family_members.mother}
+            //            if(PC.family_members.siblings.length>0)
+            //                for sib in PC.family_members.siblings
+            //                    li.family_member
+            //                        a(href='/a_npc/:#{sib}') #{sib}
+            //            if(PC.family_members.extended.length>0)
+            //                for extended_member in PC.family_members.extended
+            //                    li.family_member
+            //                        a(href='/a_npc/:#{extended_member}') #{extended_member}
+
+
+    script.
+        $(document).ready(function () {
+            $('#edit_char_age').click(function () {
+                var input = $("<input id='newAge' placeholder='different age' type='number' min=1 max=30000 step=1 size=10></input>")
+                $(input).insertAfter((this));
+                var instructions = $("<i>Press Enter to save this data</i>")
+                instructions.insertAfter(input)
+
+                input.keypress(function (event) {
+                    if (event.which == 13) {
+                        var newAge = $(this).val();
+                        var char_name = $("#PC_name").text();
+                        var data = {"character_name": char_name, "age": newAge}
+                        var url = '/data/update_pc_age'
+                        $.ajax(
+                                {
+                                    "method": "put",
+                                    "data": data,
+                                    'url': url
+                                }).done(function (result) {
+                            $("#char_age").text(result.age);
+                        }).fail(function () {
+                            console.log('error when updating age')
+                        });
+                        input.remove();
+                        instructions.remove();
+                    }
+                })
+                input.keyup(function (event) {
+                    if (event.which == 27) {
+                        $(this).remove();
+                        instructions.remove();
+
+                    }
+                })
+            })
+            //UPDATE THE RACE
+            $('#edit_char_race').click(function () {
+                var input = $("<input id='newrace' placeholder='different race' type='text'></input>")
+                $(input).insertAfter((this));
+                var instructions = $("<i>Press Enter to save this data(ESC to cancel)</i>")
+                instructions.insertAfter(input)
+
+                input.keypress(function (event) {
+                    if (event.which == 13) {
+                        var newRace = $(this).val();
+                        var char_name = $("#PC_name").text();
+                        var data = {"character_name": char_name, "race": newRace}
+                        var url = '/data/update_pc_race'
+                        $.ajax(
+                                {
+                                    "method": "put",
+                                    "data": data,
+                                    'url': url
+                                }).done(function (result) {
+                            $("#char_race").text(result.race);
+                        }).fail(function () {
+                            console.log('error when updating race')
+                        });
+                        input.remove();
+                        instructions.remove();
+                    }
+                })
+                input.keyup(function (event) {
+                    if (event.which == 27) {
+                        $(this).remove();
+                        instructions.remove();
+
+                    }
+                })
+            })
+            //UPDATE THE BASE CLASS
+            $('#edit_char_class').click(function () {
+                var input = $('<select id="main_class" name="char_base_class"><option value="Adept">Adept</option><option value="Archivist">Archivist</option><option value="Ardent">Ardent</option><option value="Aristocrat">Aristocrat</option><option value="Artificer">Artificer</option><option value="Barbarian">Barbarian</option><option value="Bard">Bard</option><option value="Battle Dancer">Battle Dancer</option> <option value="Beguiler">Beguiler</option> <option value="Binder">Binder</option> <option value="Cleric">Cleric</option> <option value="Commoner">Commoner</option> <option value = "Crusader" > Crusader </option > <option value = "Death Master" > Death Master </option> <option value = "Divine Mind" > Divine Mind </option>  <option value = "Dragonfire Addept" > Dragonfire Adept </option>  <option value = "Dragon Shaman" > Dragon Shaman </option>  <option value = "Dread Necromancer" > Dread Necromancer </option> <option value = "Druid" > Druid </option> <option value = "Druid, Urban" > Druid, Urban </option> <option value = "Duskblade" > Duskblade </option> <option value = "Expert" > Expert </option> <option value = "Factotum" > Factotum </option> <option value = "Favored Soul" > Favored Soul </option> <option value = "Fighter" > Fighter </option> <option value = "Hexblade" > Hexblade </option> <option value = "Incarnate" > Incarnate </option> <option value = "Jester" > Jester </option> <option value = "Lurk" > Lurk </option> <option value = "Monk" > Monk </option> <option value = "Mountebank" > Mountebank </option> <option value = "Ninja" > Ninja </option> <option value = "Paladin" > Paladin </option> <option value = "Psion" > Psion </option> <option value = "Psychic Warrior" > Psychic Warrior </option>  <option value = "Ranger" > Ranger </option> <option value = "Rogue" > Rogue </option> <option value = "Savant" > Savant </option> <option value = "Shadowcaster" > Shadowcaster </option> <option value = "Sha\'ir" > Sha-ir</option> <option value = "Shugenja" > Shugenja </option> <option value = "Sorcerer" > Sorcerer </option> <option value = "Soulborn" > Soulborn </option> <option value = "Soulknife" > Soulknife </option> <option value = "Spellthief" > Spellthief </option> <option value = "Spirit Shaman" > Spirit Shaman </option> <option value = "Swordsage" > Swordsage </option> <option value = "Totemist" > Totemist </option> <option value = "Truenamer" > Truenamer </option> <option value = "Warblade" > Warblade </option> <option value = "Warlock" > Warlock </option> <option value = "Warmage" > Warmage </option> <option value = "Warrior" > Warrior </option> <option value = "Wilder" > Wilder </option> <option value = "Wizard" > Wizard </option> <option value="Wu Jen"> Wu Jen</option></select>')
+                $(input).insertAfter((this));
+                var instructions = $("<i>Press Enter to save this data</i>")
+                instructions.insertAfter(input)
+
+                input.keypress(function (event) {
+                    if (event.which == 13) {
+                        var newClass = $('#main_class :selected').text();
+                        var char_name = $("#PC_name").text();
+                        var data = {"character_name": char_name, "the_class": newClass}
+                        var url = '/data/update_pc_class'
+                        $.ajax(
+                                {
+                                    "method": "put",
+                                    "data": data,
+                                    'url': url
+                                }).done(function (result) {
+                            $("#char_class").text(result.class);
+                        }).fail(function () {
+                            console.log('error when updating class')
+                        });
+                        input.remove();
+                        instructions.remove();
+                    }
+                })
+                input.keyup(function (event) {
+                    if (event.which == 27) {
+                        $(this).remove();
+                        instructions.remove();
+
+                    }
+                })
+            })
+        })
+        $('#edit_char_level').click(function () {
+            var input = $("<input id='newlevel' placeholder='different level' type='number' min=1 max=20 step=1 size=10></input>")
+            $(input).insertAfter((this));
+            var instructions = $("<i>Press Enter to save this data(ESC to cancel)</i>")
+            instructions.insertAfter(input)
+
+            input.keypress(function (event) {
+                if (event.which == 13) {
+                    var newLevel = $(this).val();
+                    var char_name = $("#PC_name").text();
+                    var data = {"character_name": char_name, "level": newLevel}
+                    var url = '/data/update_pc_level'
+                    $.ajax(
+                            {
+                                "method": "put",
+                                "data": data,
+                                'url': url
+                            }).done(function (result) {
+                        $("#char_level").text(result.level);
+                    }).fail(function () {
+                        console.log('error when updating level')
+                    });
+                    input.remove();
+                    instructions.remove();
+                }
+            })
+            input.keyup(function (event) {
+                if (event.which == 27) {
+                    $(this).remove();
+                    instructions.remove();
+
+                }
+            })
+        })
