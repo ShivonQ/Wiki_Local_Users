@@ -384,7 +384,7 @@ router.put('/update_pc_race',function(req,res){
     var update={$set:req.body};
     PC.findOneAndUpdate(filter,{'race':req.body.race},function(err,result) {
         if (err) {
-            console.log("error while updateing the race of the PC:" + err);
+            console.log("error while updating the race of the PC:" + err);
             return res.sendStatus(500);
         } else {
             console.log('updated PC race' + result);
@@ -397,7 +397,7 @@ router.put('/update_pc_class',function(req,res){
     var update={$set:req.body};
     PC.findOneAndUpdate(filter,{'the_class':req.body.the_class},function(err,result) {
         if (err) {
-            console.log("error while updateing the race of the PC:" + err);
+            console.log("error while updating the race of the PC:" + err);
             return res.sendStatus(500);
         } else {
             console.log('updated PC race' + result);
