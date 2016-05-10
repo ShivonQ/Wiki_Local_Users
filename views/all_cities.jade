@@ -16,10 +16,10 @@ block content
               a(href='/city/:#{city.city_name}') <strong> #{city.city_name}
             td.city_pop #{city.population}
             td.city_allegiance #{city.allegience}
-
-            td
-              span.glyphicon.glyphicon-edit
-  if user.isAdmin=true
+            if (user.isAdmin==true)
+              td
+                span.glyphicon.glyphicon-edit
+  if user.isAdmin==true
     script.
       console.log('User is an admin')
     p user is an admin

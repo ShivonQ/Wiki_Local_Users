@@ -3,31 +3,38 @@
 
 extends layout
 block content
+    if(!PC)
+        p looks like you have no player characters at all to view.  You should make one on your
+        a(href='/account') Account Page
+
+
+    p #{PC.player} owns this character.
     .info_block
         table
             tr
                 th(colspan=2)#PC_name #{PC.character_name}
-                    if(user.username = PC.player)
+                    if(user.local.username == PC.player)
                         span.glyphicon.glyphicon-edit#edit_char_name
             tr
                 th.left_th Age
                 td.right_td#char_age #{PC.age}
-                    if(user.username = PC.player)
+                    if(user.local.username == PC.player)
                         span.glyphicon.glyphicon-edit#edit_char_age
             tr
                 th.left_th Race
                 td.right_td#char_race #{PC.race}
-                    if(user.username = PC.player)
+                    if(user.local.username == PC.player)
                         span.glyphicon.glyphicon-edit#edit_char_race
             tr
                 th.left_th Base Class
+                p(hidden id='hidden_class_id') #{PC.base_class[0]._id}
                 td.right_td#char_class #{PC.base_class[0].the_class}
-                    if(user.username = PC.player)
+                    if(user.local.username == PC.player)
                         span.glyphicon.glyphicon-edit#edit_char_class
             tr
                 th.left_th Level
                 td.right_td#char_level #{PC.base_class[0].level}
-                    if(user.username = PC.player)
+                    if(user.local.username == PC.player)
                         span.glyphicon.glyphicon-edit#edit_char_level
             //    TODO: Once project is over, make this all correct. Make them all editable
             //tr
@@ -134,12 +141,14 @@ block content
                 $(input).insertAfter((this));
                 var instructions = $("<i>Press Enter to save this data</i>")
                 instructions.insertAfter(input)
-
+                //todo: FIX THIS FOR WHEN USERS CAN INPUT MORE THAN ONCE CLASSSSSSAS
                 input.keypress(function (event) {
                     if (event.which == 13) {
                         var newClass = $('#main_class :selected').text();
                         var char_name = $("#PC_name").text();
-                        var data = {"character_name": char_name, "the_class": newClass}
+                        var class_id=$('#hidden_class_id').text();
+                        console.log(class_id);
+                        var data = {"the_class": newClass,'_id':class_id}
                         var url = '/data/update_pc_class'
                         $.ajax(
                                 {
@@ -174,7 +183,8 @@ block content
                 if (event.which == 13) {
                     var newLevel = $(this).val();
                     var char_name = $("#PC_name").text();
-                    var data = {"character_name": char_name, "level": newLevel}
+                    var class_id=$('#hidden_class_id').text();
+                    var data = {"level": newLevel,'_id':class_id}
                     var url = '/data/update_pc_level'
                     $.ajax(
                             {

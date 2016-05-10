@@ -24,11 +24,11 @@ block content
 
                         td #{npc.current_city}
                         //TODO: Make this if user is admin show edit
-                        if(user.isAdmin=true)
+                        if(user.isAdmin==true)
                             td
                                 span.glyphicon.glyphicon-edit
                             td
                                 button.delete_npc(npc_id=npc._id)
                                     span.glyphicon.glyphicon-remove
-        if(user.isAdmin=true)
+        if(user.isAdmin==true)
             include npc_edit_form

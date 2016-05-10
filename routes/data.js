@@ -323,6 +323,7 @@ router.post('/addPC',isLoggedIn, function(req,res,next){
             if(err){
                 return next(err);
             }else{
+                num_chars++;
                 res.redirect('/all_PCs')
             }
         });
@@ -392,15 +393,17 @@ router.put('/update_pc_race',function(req,res){
         }
     })
 });
+
 router.put('/update_pc_class',function(req,res){
-    var filter={character_name:req.body.character_name};
+    var filter= {'base_class._id':req.body._id};
     var update={$set:req.body};
+console.log(req.body)
     PC.findOneAndUpdate(filter,{'the_class':req.body.the_class},function(err,result) {
         if (err) {
-            console.log("error while updating the race of the PC:" + err);
+            console.log("error while updateing the class of the PC:" + err);
             return res.sendStatus(500);
         } else {
-            console.log('updated PC race' + result);
+            console.log('updated PC class' + result);
             return res.send({'the_class': req.body.class})
         }
     })
@@ -410,12 +413,12 @@ router.put('/update_pc_level',function(req,res){
     console.log(filter)
     var update={$set:req.body};
     console.log(update)
-    PC.findOneAndUpdate(filter,{'level':req.bodylevel},function(err,result) {
+    PC.findOneAndUpdate(filter,{'level':req.body.level},function(err,result) {
         if (err) {
             console.log("error while updateing the level of the PC:" + err);
             return res.sendStatus(500);
         } else {
-            console.log('updated PC level' + result);
+            console.log('updated PC class' + result);
             return res.send({'level': req.body.level})
         }
     })

@@ -5,9 +5,9 @@ block content
 
     h2 Welcome to your user account page #{user.username}!
     h4 as you can see there is very little on this page currently.  More will be coming in the future
+    h5 you currently have #{user.number_of_characters} characters on this site.
 
-
-    if(user.number_of_characters=0)
+    if(user.number_of_characters==0)
         form#PC_CREATE(action='/data/addPC' method='POST')
             label Name Of Your Main Character In This Game
             input(type='text' name='char_name' required)

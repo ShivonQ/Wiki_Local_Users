@@ -5,26 +5,30 @@ extends layout
 block content
     .pc_div.col-md-6
         h1 #{title}
-        table
-            thead
-                tr
-                    th.table_head Character Name
-                    th.table_head Race
-                    th.table_head Base Class
-                    th.table_head Level
-                    tbody
-                each pc in PCs
-                    tr.npc_row(id=pc.character_name)
-                        td.npc_name
-                            a(href='/a_PC/#{pc.character_name}') <strong> #{pc.character_name}
-                        td #{pc.race}
-                        td #{pc.base_class[0].the_class}
-                        td #{pc.base_class[0].level}
-                        //TODO: Make this if user is admin show edit
-                        if(user.isAdmin=true)
-                            td
-                                span.glyphicon.glyphicon-edit
-                            td
-                                button.delete_npc(pc_id=pc._id)
-                                    span.glyphicon.glyphicon-remove
+        if(!PCs)
+            p looks like you have no player characters at all to view.  You should make one on your
+            a(href='/account') Account Page
+        else
+            table
+                thead
+                    tr
+                        th.table_head Character Name
+                        th.table_head Race
+                        th.table_head Base Class
+                        th.table_head Level
+                        tbody
+                    each pc in PCs
+                        tr.npc_row(id=pc.character_name)
+                            td.npc_name
+                                a(href='/a_PC/#{pc.character_name}') <strong> #{pc.character_name}
+                            td #{pc.race}
+                            td #{pc.base_class[0].the_class}
+                            td #{pc.base_class[0].level}
+                            //TODO: Make this if user is admin show edit
+                            if(user.isAdmin=true)
+                                td
+                                    span.glyphicon.glyphicon-edit
+                                td
+                                    button.delete_npc(pc_id=pc._id)
+                                        span.glyphicon.glyphicon-remove
 

@@ -23,11 +23,11 @@ router.post('/signup', passport.authenticate('local-signup', {
     failureFlash: true
 }));
 
-router.post('/login', passport.authenticate('local-login', {
-    sucessRedirect: '/index',
-    failureRedirect: '/',
-    failureFlash: true
-}));
+//router.post('/', passport.authenticate('local-login', {
+//    sucessRedirect: '/',
+//    failureRedirect: '/',
+//    failureFlash: true
+//}));
 
 router.get('/map', isLoggedIn, function (req, res, next) {
     res.render('map', {title: 'Archaevas Map', user: req.user})
@@ -102,7 +102,7 @@ router.get('/all_PCs', isLoggedIn, function(req,res,next){
     })
 });
 router.get('/a_PC/:PC_name',isLoggedIn,function(req,res,next){
-    console.log(req)
+    //console.log(req)
     var pc_name=req.params.PC_name;
     if(pc_name.charAt(0)==':'){
         pc_name=pc_name.slice(1);
