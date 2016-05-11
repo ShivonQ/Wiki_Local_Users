@@ -172,39 +172,40 @@ block content
                     }
                 })
             })
-        })
-        $('#edit_char_level').click(function () {
-            var input = $("<input id='newlevel' placeholder='different level' type='number' min=1 max=20 step=1 size=10></input>")
-            $(input).insertAfter((this));
-            var instructions = $("<i>Press Enter to save this data(ESC to cancel)</i>")
-            instructions.insertAfter(input)
 
-            input.keypress(function (event) {
-                if (event.which == 13) {
-                    var newLevel = $(this).val();
-                    var char_name = $("#PC_name").text();
-                    var class_id=$('#hidden_class_id').text();
-                    var data = {"level": newLevel,'_id':class_id}
-                    var url = '/data/update_pc_level'
-                    $.ajax(
-                            {
-                                "method": "put",
-                                "data": data,
-                                'url': url
-                            }).done(function (result) {
-                        $("#char_level").text(result.level);
-                    }).fail(function () {
-                        console.log('error when updating level')
-                    });
-                    input.remove();
-                    instructions.remove();
-                }
-            })
-            input.keyup(function (event) {
-                if (event.which == 27) {
-                    $(this).remove();
-                    instructions.remove();
+            $('#edit_char_level').click(function () {
+                var input = $("<input id='newlevel' placeholder='different level' type='number' min=1 max=20 step=1 size=10></input>")
+                $(input).insertAfter((this));
+                var instructions = $("<i>Press Enter to save this data(ESC to cancel)</i>")
+                instructions.insertAfter(input)
 
-                }
+                input.keypress(function (event) {
+                    if (event.which == 13) {
+                        var newLevel = $(this).val();
+                        var char_name = $("#PC_name").text();
+                        var class_id = $('#hidden_class_id').text();
+                        var data = {"level": newLevel, '_id': class_id}
+                        var url = '/data/update_pc_level'
+                        $.ajax(
+                                {
+                                    "method": "put",
+                                    "data": data,
+                                    'url': url
+                                }).done(function (result) {
+                            $("#char_level").text(result.level);
+                        }).fail(function () {
+                            console.log('error when updating level')
+                        });
+                        input.remove();
+                        instructions.remove();
+                    }
+                })
+                input.keyup(function (event) {
+                    if (event.which == 27) {
+                        $(this).remove();
+                        instructions.remove();
+
+                    }
+                })
             })
         })

@@ -1,3 +1,50 @@
 extends layout
 block content
-    title=title
+
+    .info_block.col-sm-3
+        table
+            tr
+                th(colspan=2)#NPC_name #{NPC.name}
+                    if(user.isAdmin == true)
+                        span.glyphicon.glyphicon-edit#edit_NPC_name
+            tr
+                th.left_th Gender
+                td.right_td#NPC_gender #{NPC.gender}
+            tr
+                th.left_th Age
+                td.right_td#NPC_age #{NPC.age}
+                    if(user.isAdmin == true)
+                        span.glyphicon.glyphicon-edit#edit_NPC_age
+            tr
+                th.left_th Race
+                td.right_td#NPC_race #{NPC.race}
+                    if(user.isAdmin == true)
+                        span.glyphicon.glyphicon-edit#edit_NPC_race
+            tr
+                th.left_th Base Class
+                //p(hidden id='hidden_class_id') #{NPC.lass.}
+                td.right_td#NPC_class #{NPC.class}
+                    if(user.isAdmin == true)
+                        span.glyphicon.glyphicon-edit#edit_NPC_class
+            tr
+                th.left_th Level
+                td.right_td#NPC_level #{NPC.level}
+                    if(user.isAdmin == true)
+                        span.glyphicon.glyphicon-edit#edit_NPC_level
+            tr
+                th.left_th Current City
+                td.right_td#NPC_current_city #{NPC.current_city}
+                    if(user.isAdmin == true)
+                        span.glyphicon.glyphicon-edit#edit_NPC_level
+            if(NPC.is_sheriff_or_cap==true)
+                tr
+                    th.left_th Sherrif or Captain of:
+                    td.right_td#Sher_cap #{NPC.current_city}
+                        if(user.isAdmin == true)
+                            span.glyphicon.glyphicon-edit#edit_NPC_level
+
+    .col-md-4.the_rest_npc_data
+        if(NPC.description!=null||NPC.description!='')
+            p.small_desc #{NPC.description}
+        if(NPC.secrets!=null||NPC.secrets!='')
+            p.secrets

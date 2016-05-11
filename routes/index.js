@@ -23,11 +23,11 @@ router.post('/signup', passport.authenticate('local-signup', {
     failureFlash: true
 }));
 
-//router.post('/', passport.authenticate('local-login', {
-//    sucessRedirect: '/',
-//    failureRedirect: '/',
-//    failureFlash: true
-//}));
+router.post('/login', passport.authenticate('local-login', {
+    sucessRedirect: '/index',
+    failureRedirect: '/',
+    failureFlash: true
+}));
 
 router.get('/map', isLoggedIn, function (req, res, next) {
     res.render('map', {title: 'Archaevas Map', user: req.user})
@@ -58,7 +58,7 @@ router.get('/npcs', isLoggedIn, function (req, res, next) {
     })
 });
 router.get('/one_npc/:name', isLoggedIn, function (req, res, next) {
-    var isAdmin = req.user.isAdmin;
+    var user = req.user;
     var npc_name = req.params.name;
     if (npc_name.charAt(0) == ':') {
         npc_name = npc_name.slice(1)
@@ -83,7 +83,7 @@ router.get('/one_npc/:name', isLoggedIn, function (req, res, next) {
                     NPC: this_npc_doc,
                     Cities: all_cities_docs,
                     Shop: this_shop_doc,
-                    user_cred: isAdmin
+                    user: user
                 })
             })
         })

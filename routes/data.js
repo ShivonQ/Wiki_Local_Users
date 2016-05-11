@@ -3,7 +3,7 @@
  */
 var express = require('express');
 var router = express.Router();
-
+var ObjectId = require('mongoose').Types.ObjectID
 //Data types needed for making new data
 var City = require('../models/city.js');
 var NPC = require('../models/npc.js');
@@ -21,11 +21,13 @@ router.post('/addcity',isLoggedIn, function (req, res, next) {
     if (!req.body || !req.body.city_name_box) {
         return next(new Error('Sorry, somehow you tried to insert data that is invalid or non-existent, it will not be saved.'))
     }
+
     var isAdmin=req.user.local.isAdmin;
+
     if(isAdmin!=true){
         req.flash('You do not have the credentials to add or edit this information. If you feel this message is in error speak with the site Admin.')
     }
-    else {
+    if(isAdmin==true){
         var list_of_gov_npcs = [];
         var list_of_casters = [];
         var list_of_genShops = [];
@@ -35,7 +37,9 @@ router.post('/addcity',isLoggedIn, function (req, res, next) {
         var list_of_exports = [];
         var list_of_imports = [];
         var captn = '';
+        console.log(req.body)
         var parse_all_dynamic_fields = function (req) {
+            console.log('1')
             obj_req = req.body;
             console.log(obj_req)
             for (var prop in obj_req) {
@@ -60,7 +64,7 @@ router.post('/addcity',isLoggedIn, function (req, res, next) {
                         list_of_gov_npcs.push(newNPC.name);
                     }
                 }
-
+console.log('2')
                 //Check for caster NPCs, sort them and save them
                 if (str_prop.indexOf('caster') >= 0) {
                     if (obj_req[prop] == '') {
@@ -80,6 +84,7 @@ router.post('/addcity',isLoggedIn, function (req, res, next) {
                         list_of_casters.push(newCasterNPC.name);
                     }
                 }
+                console.log('3')
                 if (str_prop.indexOf('gen_store') >= 0) {
                     if (obj_req[prop] == '') {
                         console.log('Empty field skipped')
@@ -196,31 +201,33 @@ router.post('/addcity',isLoggedIn, function (req, res, next) {
                     console.log("recieved data name: " + prop + " , associated data in it: " + obj_req[prop]);
                 }
             }
+        }
+
 //CALL IT!
-            parse_all_dynamic_fields(req);
-            var newCity = new City({
-                city_name: req.body.city_name_box,
-                allegience: req.body.allegiance_dropdown,
-                population: req.body.city_pop,
-                city_guards: (req.body.city_pop * 0.01).toFixed(0),
-                city_militia: (req.body.city_pop * 0.05).toFixed(0),
-                lat: req.body.lat_display_box,
-                lng: req.body.lng_display_box,
-                govtype: req.body.gov_type_dropdown,
-                gov_alignment: req.body.alignment_dropdown,
-                gov_npcs: list_of_gov_npcs,
-                city_description: req.body.city_description_field,
-                shops: {
-                    general_stores: list_of_genShops,
-                    tavern_and_others: list_of_tavShops,
-                    weps_and_armor: list_of_wepArmorShops,
-                    magic_shops: list_of_magicShops
-                },
-                sherrif_or_captain: captn,
-                casters: list_of_casters,
-                major_exports: list_of_exports,
-                major_imports: list_of_imports
-            });
+    parse_all_dynamic_fields(req);
+    var newCity = new City({
+        city_name: req.body.city_name_box,
+        allegience: req.body.allegiance_dropdown,
+        population: req.body.city_pop,
+        city_guards: (req.body.city_pop * 0.01).toFixed(0),
+        city_militia: (req.body.city_pop * 0.05).toFixed(0),
+        lat: req.body.lat_display_box,
+        lng: req.body.lng_display_box,
+        govtype: req.body.gov_type_dropdown,
+        gov_alignment: req.body.alignment_dropdown,
+        gov_npcs: list_of_gov_npcs,
+        city_description: req.body.city_description_field,
+        shops: {
+            general_stores: list_of_genShops,
+            tavern_and_others: list_of_tavShops,
+            weps_and_armor: list_of_wepArmorShops,
+            magic_shops: list_of_magicShops
+        },
+        sherrif_or_captain: captn,
+        casters: list_of_casters,
+        major_exports: list_of_exports,
+        major_imports: list_of_imports
+    });
 //SAVE IT!!!!!!
             newCity.save(function (err) {
                 if (err) {
@@ -232,7 +239,6 @@ router.post('/addcity',isLoggedIn, function (req, res, next) {
             });
             console.log(newCity)
         }
-    }
 });
 
 router.post('/addNPC',isLoggedIn, function (req, res, next) {
@@ -420,6 +426,22 @@ router.put('/update_pc_level',function(req,res){
         } else {
             console.log('updated PC class' + result);
             return res.send({'level': req.body.level})
+        }
+    })
+});
+router.put('/update_city_name',function(req,res){
+    var filter=req.body._id;
+    var element_id=new ObjectId(filter)
+    console.log(filter)
+    console.log(req.body.city_name)
+    PC.findByIdAndUpdate(req.body._id,{'city_name':req.body.city_name},function(err,result) {
+        console.log(result)
+        if (err) {
+            console.log("error while updateing the level of the PC:" + err);
+            return res.sendStatus(500);
+        } else {
+            console.log('updated city name' + result);
+            return res.send({'city_name': req.body.city_name})
         }
     })
 });

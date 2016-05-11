@@ -6,9 +6,13 @@ block content
 
     title=title
     .col-md-4
+        p()#hidden_city_id #{City._id}
         table(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
             tr
-                td(align='center', colspan='4') #{City.city_name}
+                td(align='center', colspan='4')#city_name #{City.city_name}
+                    p
+                        if(user.local.isAdmin == true)
+                            span.glyphicon.glyphicon-edit#edit_city_name
 
             tr
                 td(colspan='4', align='center') City Location
@@ -18,7 +22,10 @@ block content
                 td(align='center') Longitude:
                 td.lng_insert #{City.lng}
             tr
-                td(colspan='4') Population: #{City.population}
+                td(colspan='2') Population :
+                td(colspan='2')#city_pop #{City.population}
+                    if(user.local.isAdmin == true)
+                        span.glyphicon.glyphicon-edit#edit_city_pop
             tr
                 td(colspan=2) Government Type :#{City.govtype}
                 td(colspan=2) Alignment: #{City.gov_alignment}
@@ -42,7 +49,9 @@ block content
                 td(colspan=4)
                     div#mini_map
             tr
-                td(colspan='4') #{City.city_description}
+                td(colspan='4')#city_desc #{City.city_description}
+                    if(user.local.isAdmin == true)
+                        span.glyphicon.glyphicon-edit#edit_city_desc
 
 
     .col-md-4
@@ -95,9 +104,15 @@ block content
                             td(colspan=2)
                                 a(href='/one_npc/:#{City.sherrif_or_captain}') #{City.sherrif_or_captain}
                         tr
-                            td(colspan=2)#guard_numbers Guards: #{City.city_guards}
+                            td Guards:
+                            td#guard_numbers #{City.city_guards}
+                                if(user.local.isAdmin == true)
+                                    span.glyphicon.glyphicon-edit#edit_city_guard
                         tr
-                            td(colspan=2)#militia_numbers Militia: #{City.city_militia}
+                            td Militia:
+                            td#militia_numbers #{City.city_militia}
+                                if(user.local.isAdmin == true)
+                                    span.glyphicon.glyphicon-edit#edit_city_militia
                 td(colspan='2')
                     | Notable Spellcasters
                     table(style='border-collapse: collapse', border='3', cellspacing='6', cellpadding='6')
@@ -127,4 +142,148 @@ block content
                     ul
                         for exports in City.major_exports
                             li #{exports}
+
+    script.
+        $(document).ready(function () {
+
+            $('#edit_city_name').click(function () {
+
+                var input = $("<input id='newName' placeholder='City Name' type='text'></input>")
+                $(input).insertAfter((this));
+                var instructions = $("<i>Press Enter to save this data</i>")
+                instructions.insertAfter(input)
+
+                input.keypress(function (event) {
+                    if (event.which == 13) {
+                        var city_id = $("p#hidden_city_id").text();
+                        var newName = $(this).val();
+                        //var city_name = $("#city_name").text();
+                        console.log(city_name)
+                        var data = {"_id": city_id, "city_name": newName}
+                        var url = '/data/update_city_name'
+                        $.ajax(
+                                {
+                                    "method": "put",
+                                    "data": data,
+                                    'url': url
+                                }).done(function (result) {
+                            $("#city_name").text(result.city_name);
+                        }).fail(function () {
+                            console.log('error when updating age')
+                        });
+                        input.remove();
+                        //instructions.remove();
+                    }
+                })
+                input.keyup(function (event) {
+                    if (event.which == 27) {
+                        $(this).remove();
+                        //instructions.remove();
+
+                    }
+                })
+            })
+            $('#edit_city_pop').click(function () {
+                var input = $("<input id='newPop' placeholder='City Pop' type='number' min='1' max='100000'></input>")
+                $(input).insertAfter((this));
+                var instructions = $("<i>Press Enter to save this data</i>")
+                instructions.insertAfter(input)
+
+                input.keypress(function (event) {
+                    if (event.which == 13) {
+                        var newpop = $(this).val();
+                        var city_name = $("#city_name").text();
+                        var data = {"city_name": city_name, "population": newpop}
+                        var url = '/data/update_city_pop'
+                        $.ajax(
+                                {
+                                    "method": "put",
+                                    "data": data,
+                                    'url': url
+                                }).done(function (result) {
+                            $("#city_pop").text(result.age);
+                        }).fail(function () {
+                            console.log('error when updating age')
+                        });
+                        input.remove();
+                        instructions.remove();
+                    }
+                })
+                input.keyup(function (event) {
+                    if (event.which == 27) {
+                        $(this).remove();
+                        instructions.remove();
+
+                    }
+                })
+            })
+            $('#edit_city_guard').click(function () {
+                var input = $("<input id='newGuard' placeholder='Guards' type='number' min='1' max='10000'></input>")
+                $(input).insertAfter((this));
+                var instructions = $("<i>Press Enter to save this data</i>")
+                instructions.insertAfter(input)
+
+                input.keypress(function (event) {
+                    if (event.which == 13) {
+                        var newGuard= $(this).val();
+                        var city_name = $("#city_name").text();
+                        var data = {"city_name": city_name, "city_guard": newGuard}
+                        var url = '/data/update_city_guard'
+                        $.ajax(
+                                {
+                                    "method": "put",
+                                    "data": data,
+                                    'url': url
+                                }).done(function (result) {
+                            $("#city_guard").text(result.city_guard);
+                        }).fail(function () {
+                            console.log('error when updating age')
+                        });
+                        input.remove();
+                        instructions.remove();
+                    }
+                })
+                input.keyup(function (event) {
+                    if (event.which == 27) {
+                        $(this).remove();
+                        instructions.remove();
+
+                    }
+                })
+            })
+            $('#edit_city_militia').click(function () {
+                var input = $("<input id='newMilitia' placeholder='Militia' type='number' min='1' max='10000'></input>")
+                $(input).insertAfter((this));
+                var instructions = $("<i>Press Enter to save this data</i>")
+                instructions.insertAfter(input)
+
+                input.keypress(function (event) {
+                    if (event.which == 13) {
+                        var newMilitia = $(this).val();
+                        var city_name = $("#city_name").text();
+                        var data = {"city_name": city_name, "city_militia": newMilitia}
+                        var url = '/data/update_city_guard'
+                        $.ajax(
+                                {
+                                    "method": "put",
+                                    "data": data,
+                                    'url': url
+                                }).done(function (result) {
+                            $("#city_militia").text(result.city_militia);
+                        }).fail(function () {
+                            console.log('error when updating age')
+                        });
+                        input.remove();
+                        instructions.remove();
+                    }
+                })
+                input.keyup(function (event) {
+                    if (event.which == 27) {
+                        $(this).remove();
+                        instructions.remove();
+
+                    }
+                })
+            })
+        });
 
